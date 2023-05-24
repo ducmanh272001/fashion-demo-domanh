@@ -30,6 +30,11 @@
 .menusanpham li i {
 	padding-right: 15px;
 }
+.aok{
+ margin-left: 7px;
+ font-weight: bold;
+ font-size: 16px;
+}
 .chinhinput{
 	width: 100%;
     padding: 9px 20px;
@@ -126,38 +131,42 @@
 										 <sform:input cssClass="chinhinput" type="number" path="id" readonly="true"/>
 									</div>
 									<div class="col-md-12">
+									<a class="aok">Tên sản phẩm</a>
 										 <sform:input type="text" path="name" placeholder="Nhập tên sản phẩm..." maxlength="50"/>
 										 <sform:errors path="name" cssClass="error"></sform:errors>
 									</div>
+									<a class="aok" style="margin-left: 22px">Nội dung</a>
 									<div class="col-md-12" style="padding-bottom: 16px;">
 										<sform:input type="text" path="descripe"/>
 										<sform:errors cssClass="error" path="descripe"></sform:errors>
 									</div>
 									<div class="col-md-12">
+									<a class="aok">Mô tả</a>
 										<sform:textarea path="information" rows="3"	id="information"/>
 										<sform:errors cssClass="error" path="information"></sform:errors>
 									</div>
 									<div class="col-md-12">
+									     <a class="aok">Giá nhập sản phẩm</a>
 										<sform:input cssClass="chinhinput"  type="number" path="price_import"/>
 										<sform:errors cssClass="error" path="price_import"></sform:errors>
 									</div>
 									<div class="col-md-12">
-										<sform:input cssClass="chinhinput" type="number" path="price_old"/>
-										<sform:errors cssClass="error" path="price_old"></sform:errors>
-									</div>
-									<div class="col-md-12">
+									<a class="aok">Giá mới sản phẩm</a>
 										<sform:input cssClass="chinhinput" type="number" path="price_new"/>
 										<sform:errors cssClass="error" path="price_new"></sform:errors>
 									</div>
 									<div class="col-md-12">
+								    <a class="aok">Số lượng</a>
 										<sform:input cssClass="chinhinput" type="number" path="sp_view" step="1"/>
 									</div>
 									<div class="col-md-12 mt-3">
+									<a class="aok">Loại sản phẩm</a>
 										<sform:select path="idtheloai" cssClass="selectcss">
 		                                    <sform:options items="${lsp}" itemValue="id" itemLabel="loai_sp"/>
 		                                </sform:select>
 									</div>
 									<div class="col-md-12" style="padding-top: 16px">
+									<a class="aok">Nhãn hiệu</a>
 										<sform:select path="idnhanhieu" cssClass="selectcss">
 		                                     <sform:options items="${list}" itemValue="id" itemLabel="name_brand"/>
 		                                </sform:select>

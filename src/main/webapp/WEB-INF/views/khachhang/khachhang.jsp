@@ -109,7 +109,7 @@
 				
 				</div>
 			</div>
-			<span>${xoatc}</span>
+			<span>${xoaOk}</span>
 			<div class="bangsanpham cols">
 				<table class="sanphamadmin">
 					<tr>
@@ -139,7 +139,7 @@
 							 <a href="${rootpath}sua-khach-hang/${l.id}"><img style="width: 30px;height: 30px" src="${rootpath}public/img/pencil-icon.png"></a>
 							</td>
 							<td>
-							<a href="${rootpath}delete-khach-hang/${l.id}"><img style="width: 30px;height: 30px" src="${rootpath}public/img/Delete-group-icon.png"></a>
+							<a href="${rootpath}delete/${l.id}"><img style="width: 30px;height: 30px" src="${rootpath}public/img/Delete-group-icon.png"></a>
 							</td>
 						</tr>
 					</c:forEach>

@@ -118,7 +118,7 @@ h6.my-0 {
 							<label for="email" style="text-decoration: underline;">Email
 								<span class="text-muted">(Optional)</span>
 							</label> <input name="email" type="email" class="form-control" id="email"
-								placeholder="Nhập mail của bạn" required="required">
+								placeholder="Nhập mail của bạn" value="${nd.name}" required="required">
 						</div>
 
 						<div class="mb-3">

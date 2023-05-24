@@ -1,6 +1,9 @@
 package com.fashion.controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,49 +15,68 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fashion.entity.Hinhanh;
-import com.fashion.entity.Sanpham;
-import com.fashion.entity.TinTuc;
+import com.fashion.base.BaseService;
+import com.fashion.entity.ImagerEntity;
+import com.fashion.entity.ProductEntity;
+import com.fashion.entity.NewsEntity;
 
 @Controller
 public class HomeController {
 
-	@RequestMapping(value = { "", "/fashion" }, method = RequestMethod.GET)
-	public String homeFahsion(Model model, HttpServletRequest request) {
-		// Lấy ra 12 sản phẩm mới nhất
-		List<Sanpham> lst = TienIch.sanPhamMoiNhat();
+	@RequestMapping(value = {"", "/fashion"}, method = RequestMethod.GET)
+	public String homeFashion(Model model, HttpServletRequest request) {
+		
+		// Lấy ra 12 sản phẩm bán chayj
+		
+		List<String> lst = BaseService.sanPhamBanChay();
+		List<Long> longList = lst.stream()
+		                        .map(Long::parseLong)
+		                        .collect(Collectors.toList());
+
+        List<ProductEntity> sanPhamBanChay = new ArrayList<>();
+		
+		
+		for (int i = 0; i < longList.size(); i++) {
+			ProductEntity productEntity =  BaseService.searchIdSanPham(longList.get(i).intValue());
+			sanPhamBanChay.add(productEntity);
+		}
+	
+		
 		// Sản phẩm nổi bật
-		List<Sanpham> list = TienIch.sanPhamSale();
+		List<ProductEntity> list = BaseService.ListSanPham(model);
 		// Nạp sản phẩm đang sale
 		HttpSession session = request.getSession();
 		session.setAttribute("lag", "vi_VN");
 		// Lấy list tin tức
-		List<TinTuc> listtt = TienIch.listTinTuc();
+		List<NewsEntity> listtt = BaseService.listTinTuc();
 		// Lấy list hình ảnh
-		List<Hinhanh> hinhanh = TienIch.selectAllHinhAnh();
+		List<ImagerEntity> hinhanh = BaseService.selectAllHinhAnh();
 		// Kiểm tra xem là nếu mà cái phần tử nào mà bằng với cái id hình ảnh thì thêm
 		// vào
-		for (int i = 0; i < lst.size(); i++) {
+		for (int i = 0; i < sanPhamBanChay.size(); i++) {
 			for (int j = 0; j < hinhanh.size(); j++) {
-				if (lst.get(i).getId() == hinhanh.get(j).getIdsp()) {
-					List<Hinhanh> lhanh = TienIch.selectByIdSpHinhAnh(hinhanh.get(j).getIdsp());
-					lst.get(i).setListHinhAnh(lhanh);
+				if (sanPhamBanChay.get(i).getId() == hinhanh.get(j).getIdsp()) {
+					List<ImagerEntity> lhanh = BaseService.selectByIdSpHinhAnh(hinhanh.get(j).getIdsp());
+					sanPhamBanChay.get(i).setListHinhAnh(lhanh);
 				}
 			}
 		}
+		
+		
 
 		// Đến List sản phẩm sale
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = 0; j < hinhanh.size(); j++) {
 				if (list.get(i).getId() == hinhanh.get(j).getIdsp()) {
-					List<Hinhanh> lhanh = TienIch.selectByIdSpHinhAnh(hinhanh.get(j).getIdsp());
+					List<ImagerEntity> lhanh = BaseService.selectByIdSpHinhAnh(hinhanh.get(j).getIdsp());
 					list.get(i).setListHinhAnh(lhanh);
 				}
 			}
 		}
 		String ngonngu = request.getParameter("lag");
 		if (ngonngu == null) {
-			model.addAttribute("lst", lst);
+			model.addAttribute("lstmn", sanPhamBanChay);
+		
 			model.addAttribute("lspmt", list);
 			model.addAttribute("ltintuc", listtt);
 			return "home";
@@ -89,7 +111,7 @@ public class HomeController {
 			break;
 		}
 		}
-		model.addAttribute("lst", lst);
+		model.addAttribute("lstmn", sanPhamBanChay);
 		model.addAttribute("lspmt", list);
 		model.addAttribute("ltintuc", listtt);
 		return "home";
@@ -98,7 +120,7 @@ public class HomeController {
 	// Xem tin tức
 	@GetMapping(value = "/xem-tin-tuc/{id}")
 	public String xemTinTuc(@PathVariable(value = "id") int idla, Model model) {
-		TinTuc tintuc = TienIch.TimTinTuc(idla);
+		NewsEntity tintuc = BaseService.TimTinTuc(idla);
 		model.addAttribute("ltt", tintuc);
 		model.addAttribute("tintuc", "Tin tức");
 		return "tintuc/tintuc";

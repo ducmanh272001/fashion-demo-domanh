@@ -35,10 +35,11 @@ input.nutbutton {
 	box-shadow: -3px 2px 9px 5px #42414196;
 	transition: 0.5s;
 }
+
 input.nutbutton:hover {
-   transform: rotate(360deg);
-   background-color: #eec958;
-   color: black;
+	transform: rotate(360deg);
+	background-color: #eec958;
+	color: black;
 }
 </style>
 </head>
@@ -241,24 +242,37 @@ input.nutbutton:hover {
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="product-single-one-img">
-				<c:forEach items="${sp.listHinhAnh}" var="p" begin="0" end="0">
-					<img src="${rootpath}public/img/${p.name}" class="x-zoom" xoriginal="${rootpath}public/img/${p.name}">
-				</c:forEach>	
+						<c:forEach items="${sp.listHinhAnh}" var="p" begin="0" end="0">
+							<img src="${rootpath}public/img/${p.name}" class="x-zoom"
+								xoriginal="${rootpath}public/img/${p.name}">
+						</c:forEach>
 					</div>
-				<div class="product-img-zoom">
-					<c:forEach items="${sp.listHinhAnh}" var="p" begin="0" end="0">
-						<div class="product-img-zoom-one"><a href="${rootpath}public/img/${p.name}"><img class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a></div>
-					</c:forEach>
-					<c:forEach items="${sp.listHinhAnh}" var="p" begin="1" end="1">
-					    <div class="product-img-zoom-one"><a href="${rootpath}public/img/${p.name}"><img class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a></div>
-					</c:forEach>
-					<c:forEach items="${sp.listHinhAnh}" var="p" begin="2" end="2">
-                        <div class="product-img-zoom-one"><a href="${rootpath}public/img/${p.name}"><img class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a></div>
-                    </c:forEach>
-                    <c:forEach items="${sp.listHinhAnh}" var="p" begin="3" end="3">
-                        <div class="product-img-zoom-one"><a href="${rootpath}public/img/${p.name}"><img class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a></div>
-					</c:forEach>
-				</div>
+					<div class="product-img-zoom">
+						<c:forEach items="${sp.listHinhAnh}" var="p" begin="0" end="0">
+							<div class="product-img-zoom-one">
+								<a href="${rootpath}public/img/${p.name}"><img
+									class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a>
+							</div>
+						</c:forEach>
+						<c:forEach items="${sp.listHinhAnh}" var="p" begin="1" end="1">
+							<div class="product-img-zoom-one">
+								<a href="${rootpath}public/img/${p.name}"><img
+									class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a>
+							</div>
+						</c:forEach>
+						<c:forEach items="${sp.listHinhAnh}" var="p" begin="2" end="2">
+							<div class="product-img-zoom-one">
+								<a href="${rootpath}public/img/${p.name}"><img
+									class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a>
+							</div>
+						</c:forEach>
+						<c:forEach items="${sp.listHinhAnh}" var="p" begin="3" end="3">
+							<div class="product-img-zoom-one">
+								<a href="${rootpath}public/img/${p.name}"><img
+									class="xzoom-smale" src="${rootpath}public/img/${p.name}"></a>
+							</div>
+						</c:forEach>
+					</div>
 				</div>
 				<div class="col-lg-8">
 					<div class="product-single-one-text">
@@ -272,13 +286,11 @@ input.nutbutton:hover {
 								</span>
 							</div>
 							<h4>
-								<fmt:formatNumber value="${sp.price_new}" type="currency"/>
-								<del><fmt:formatNumber value="${sp.price_old}" type="currency"/></del>
+								<fmt:formatNumber value="${sp.price_new}" type="currency" />
 							</h4>
 							<b>Nội dung:</b>
 							<p>${sp.descripe}</p>
-							<b>Mô tả sản phẩm:</b>
-							  ${sp.information}
+							<b>Mô tả sản phẩm:</b> ${sp.information}
 							<form action="${rootpath}thanh-toan-gio" method="get">
 								<div class="size">
 									<select name="product" class="customers">
@@ -345,6 +357,11 @@ input.nutbutton:hover {
 									<span style="color: red; text-decoration: underline;">${nl}</span>
 									<br> <input class="nutbutton" type="submit"
 										value="ADD TO CART">
+									<c:if test="${tonkho != null}">
+									<h2
+										style="color: red; font-weight: bold; font-size: 24px; font-family: cursive;margin-top: 15px;">Còn
+										${tonkho} sản phẩm trong kho</h2>
+									</c:if>
 								</div>
 							</form>
 						</div>
@@ -538,19 +555,22 @@ input.nutbutton:hover {
 									<div class="thump">
 										<span> Mã: <b>${spct.id}</b></span>
 										<div class="image-zoom">
-										<c:forEach items="${spct.listHinhAnh}" var="p" begin="0" end="0">
-											<img src="${rootpath}public/img/${p.name}" alt=""> 
-										</c:forEach>
-										<c:forEach items="${spct.listHinhAnh}" var="p" begin="1" end="1">
-											<img class="zooom-product"src="${rootpath}public/img/${p.name}" >
-									    </c:forEach>
+											<c:forEach items="${spct.listHinhAnh}" var="p" begin="0"
+												end="0">
+												<img src="${rootpath}public/img/${p.name}" alt="">
+											</c:forEach>
+											<c:forEach items="${spct.listHinhAnh}" var="p" begin="1"
+												end="1">
+												<img class="zooom-product"
+													src="${rootpath}public/img/${p.name}">
+											</c:forEach>
 										</div>
 										<div class="icon-hot-product">
 											<a href=""><i class="fa-regular fa-heart"></i></a> <a
 												class="open-quick" href=""><i class="fa-solid fa-expand"></i></a>
 											<a href=""><i class="fa-solid fa-arrow-right-arrow-left"></i></a>
 										</div>
-										<form action="${roopath}ao-nu/${spct.id}" method="get">
+										<form action="${roopath}product/ao-nu/${spct.id}" method="get">
 											<button>View Product Detail</button>
 										</form>
 									</div>
@@ -639,7 +659,8 @@ input.nutbutton:hover {
 		<a href=""><i class="fa-solid fa-angles-up"></i></a>
 	</div>
 	<script src="https://code.jquery.com/jquery.min.js"></script>
-	<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+	<script
+		src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 	<script src="${rootpath}public/plugin/cloundzoom/jquery.js"></script>
 	<script src="${rootpath}public/plugin/cloundzoom/zoom.js"></script>
 	<script src="${rootpath}public/plugin/cloundzoom/script.js"></script>

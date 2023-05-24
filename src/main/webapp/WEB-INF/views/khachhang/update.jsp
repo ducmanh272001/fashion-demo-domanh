@@ -126,11 +126,7 @@
 										 <sform:input cssClass="col-s-12" type="text" path="name" cssStyle="width:150%;" placeholder="Nhập tên khách hàng..." maxlength="50"/>
 										  <sform:errors path="name" cssClass="error"></sform:errors>
 									</div>
-									<div class="col-md-12" style="padding-bottom: 16px;display: none;">
-										<sform:input cssClass="col-s-12" type="text" cssStyle="width:150%;" path="account"/>
-										<sform:errors path="account" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12" style="display: none;">
+									<div class="col-md-12">
 										<sform:input cssClass="col-s-12" type="text" cssStyle="width:150%;" path="passwword"/>
 										<sform:errors path="passwword" cssClass="error"></sform:errors>
 									</div>

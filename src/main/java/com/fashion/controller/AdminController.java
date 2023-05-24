@@ -33,16 +33,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fashion.entity.Hinhanh;
-import com.fashion.entity.HoaDon;
-import com.fashion.entity.HoaDonChiTiet;
-import com.fashion.entity.KhachHang;
-import com.fashion.entity.LoaiSanPham;
-import com.fashion.entity.NhanHieu;
-import com.fashion.entity.SanPhamChiTiet;
-import com.fashion.entity.Sanpham;
-import com.fashion.entity.ThongBao;
-import com.fashion.entity.TinTuc;
+import com.fashion.base.BaseService;
+import com.fashion.entity.ImagerEntity;
+import com.fashion.entity.BillEntity;
+import com.fashion.entity.BillDetailEntity;
+import com.fashion.entity.CustomerEntity;
+import com.fashion.entity.TypeProductEntity;
+import com.fashion.entity.UserEntity;
+import com.fashion.notify.Notifies;
+import com.fashion.entity.BranchEntity;
+import com.fashion.entity.ProductDetailEntity;
+import com.fashion.entity.ProductEntity;
+import com.fashion.entity.NewsEntity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -58,14 +60,14 @@ public class AdminController {
 		if (ROLE == null || ROLE.equals("USER")) {
 			return "redirect:/dang-nhap";
 		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
-			List<LoaiSanPham> lsp = TienIch.ListLoaiSanPham();
+			List<TypeProductEntity> lsp = BaseService.ListLoaiSanPham();
 			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
 			model.addAttribute("sotrang", sotrang);
-			List<Sanpham> list = TienIch.PhanTrang(sotrang);
+			List<ProductEntity> list = BaseService.PhanTrang(sotrang);
 			model.addAttribute("list", list);
 			model.addAttribute("lsp", lsp);
 			listNhanHieu(model);
-			Long slsp = TienIch.count();
+			Long slsp = BaseService.count();
 			model.addAttribute("sl", slsp);
 			String lag = request.getParameter("lag");
 			if (lag == null) {
@@ -104,13 +106,13 @@ public class AdminController {
 	// Lấy ra dánh sách Nhãn hiệu
 	private static void listNhanHieu(Model model) {
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/Nhan-hieu/list";
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/branch/";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
-		Type typeOfT = new TypeToken<List<NhanHieu>>() {
+		Type typeOfT = new TypeToken<List<BranchEntity>>() {
 		}.getType();
-		List<NhanHieu> list = gs.fromJson(data, typeOfT);
+		List<BranchEntity> list = gs.fromJson(data, typeOfT);
 		model.addAttribute("lnh", list);
 	}
 
@@ -122,14 +124,14 @@ public class AdminController {
 		int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
 		int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
 		// List sản phẩm ở đây
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/San-pham/list-san-pham";
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/";
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
-		Type typeOfT = new TypeToken<List<Sanpham>>() {
+		Type typeOfT = new TypeToken<List<ProductEntity>>() {
 		}.getType();
-		List<Sanpham> listspp = gs.fromJson(data, typeOfT);
+		List<ProductEntity> listspp = gs.fromJson(data, typeOfT);
 		//////////////////////////////////
 		for (int i = 0; i < listspp.size(); i++) {
 			if (listspp.get(i).getName().equals(tentim) && listspp.get(i).getIdtheloai() == loaisp
@@ -137,14 +139,14 @@ public class AdminController {
 				model.addAttribute("ltim", listspp.get(i));
 				// Gửi lại cái list của nhan hiệu và list của loại sản phẩm
 				listNhanHieu(model);
-				List<LoaiSanPham> lst = TienIch.ListLoaiSanPham();
+				List<TypeProductEntity> lst = BaseService.ListLoaiSanPham();
 				model.addAttribute("lsp", lst);
 				return "admin/sanpham";
 			}
 		}
 		// Lạp lại cái list cho nhãn hiệu và list cho loại sản phẩm
 		listNhanHieu(model);
-		List<LoaiSanPham> lst = TienIch.ListLoaiSanPham();
+		List<TypeProductEntity> lst = BaseService.ListLoaiSanPham();
 		model.addAttribute("lsp", lst);
 		model.addAttribute("oco", "Không tìm thấy sản phẩm!");
 		return "admin/sanpham";
@@ -153,19 +155,21 @@ public class AdminController {
 	// list Log
 
 	// Quản lý khách hàng
-	@GetMapping(value = "/khach-hang")
-	public String QuanLyKh(@RequestParam(required = false) Map<String, String> param, HttpServletRequest request,
+	@GetMapping(value = {"/khach-hang"})
+	public String QuanLyKh(@RequestParam(required = false) Map<String, String> param, @RequestParam(value = "xoatc",required = false)String xoaOk,HttpServletRequest request,
 			Model model) {
+		System.out.println(xoaOk);
 		HttpSession session = request.getSession();
 		String ROLE = (String) session.getAttribute("role");
 		if (ROLE == null) {
 			return "redirect:/dang-nhap";
 		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
 			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
-			List<KhachHang> list = TienIch.phanTrangKhachHang(sotrang);
+			List<CustomerEntity> list = BaseService.phanTrangKhachHang(sotrang);
 			model.addAttribute("lok", list);
-			Long soluong = TienIch.CountKhachHang();
+			Long soluong = BaseService.CountKhachHang();
 			model.addAttribute("sl", soluong);
+			model.addAttribute("xoaOk",xoaOk);
 			return "khachhang/khachhang";
 		}
 		return "redirect:/dang-nhap";
@@ -174,34 +178,35 @@ public class AdminController {
 	// Sửa khách hàng
 	@GetMapping(value = "/sua-khach-hang/{idla}")
 	public String suaKhachHang(@PathVariable(value = "idla") int idla, Model model) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/KhachHang/search-kh/" + idla;
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/customer/search/" + idla;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		KhachHang kh = gs.fromJson(dulieu, KhachHang.class);
+		CustomerEntity kh = gs.fromJson(dulieu, CustomerEntity.class);
 		model.addAttribute("kh", kh);
 		return "khachhang/update";
 	}
 
 	// Sửa khách hàng
 	@PostMapping(value = "/udate-kh-tc")
-	public String updateKhachHangThanhCong(@ModelAttribute(value = "kh") @Valid KhachHang khachhang,
+	public String updateKhachHangThanhCong(@ModelAttribute(value = "kh") @Valid CustomerEntity khachhang,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
+			System.out.println(result.getErrorCount());
 			model.addAttribute("kh", khachhang);
 			return "khachhang/update";
 		}
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String data = gs.toJson(khachhang);
-		TienIch.SuaKhachHang(data);
+		BaseService.SuaKhachHang(data);
 		return "redirect:/khach-hang";
 	}
 
 	// Xóa khách hàng
-	@GetMapping(value = "/delete-khach-hang/{idla}")
+	@GetMapping(value = "/delete/{idla}")
 	public String deleteKhachHang(@PathVariable(value = "idla") int idla, Model model) {
-		String xoatc = TienIch.deleteKhachHang(idla);
+		String xoatc = BaseService.deleteKhachHang(idla);
 		model.addAttribute("xoatc", xoatc);
 		return "redirect:/khach-hang";
 	}
@@ -217,9 +222,9 @@ public class AdminController {
 			return "redirect:/dang-nhap";
 		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
 			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
-			List<HoaDon> list = TienIch.phanTrangHoaDon(sotrang);
+			List<BillEntity> list = BaseService.phanTrangHoaDon(sotrang);
 			model.addAttribute("list", list);
-			int soluong = TienIch.CountHoaDon();
+			int soluong = BaseService.CountHoaDon();
 			model.addAttribute("sl", soluong);
 			return "hoadon/hoadon";
 		}
@@ -229,32 +234,36 @@ public class AdminController {
 	// Xử lý hóa đơn
 	@GetMapping(value = "/sua-hoa-don/{idla}")
 	public String xuLyHoaDon(@PathVariable(value = "idla") int idla, Model model) {
-		HoaDon hd = TienIch.timHoaDon(idla);
+		BillEntity hd = BaseService.timHoaDon(idla);
 		model.addAttribute("hd", hd);
 		return "hoadon/update";
 	}
 
 	@PostMapping(value = "/sua-hd-tc")
-	public String suaHoaDon(@ModelAttribute(value = "hd") HoaDon hoadon) {
+	public String suaHoaDon(@ModelAttribute(value = "hd") BillEntity hoadon) {
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		int idkh = hoadon.getIdmakh();
-		KhachHang kh = TienIch.selectByKhachHang(idkh);
+		CustomerEntity kh = BaseService.selectByKhachHang(idkh);
 		hoadon.setMakh(kh);
 		String data = gs.toJson(hoadon);
-		TienIch.suaHoaDon(data);
+		BaseService.suaHoaDon(data);
 		return "redirect:/list-hoa-don";
 	}
 
 	@GetMapping(value = "/delete-hoadon/{idxoa}")
 	public String xoaHoaDon(@PathVariable(value = "idxoa") int idxoa,
 			@RequestParam(required = false) Map<String, String> param, Model model) {
-		String xoatc = TienIch.xoaHoaDon(idxoa);
+		
+		//Xóa hóa đơn chi tiết
+		BaseService.deleteBillDetailFromBillId(idxoa);
+		
+		String xoatc = BaseService.xoaHoaDon(idxoa);
 		model.addAttribute("xoatc", xoatc);
 		// Nạp lại phân trang
 		int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
-		List<HoaDon> list = TienIch.phanTrangHoaDon(sotrang);
+		List<BillEntity> list = BaseService.phanTrangHoaDon(sotrang);
 		model.addAttribute("list", list);
-		int soluong = TienIch.CountHoaDon();
+		int soluong = BaseService.CountHoaDon();
 		model.addAttribute("sl", soluong);
 		return "hoadon/hoadon";
 	}
@@ -263,27 +272,27 @@ public class AdminController {
 	public String xuLyOk(HttpServletRequest request) {
 		Boolean trangthai = Boolean.parseBoolean(request.getParameter("trangthai"));
 		int idla = Integer.parseInt(request.getParameter("idla"));
-		HoaDon hd = TienIch.timHoaDon(idla);
+		BillEntity hd = BaseService.timHoaDon(idla);
 		hd.setStatus(trangthai);
 		int idkh = hd.getIdmakh();
-		KhachHang kh = TienIch.selectByKhachHang(idkh);
+		CustomerEntity kh = BaseService.selectByKhachHang(idkh);
 		hd.setMakh(kh);
 		// Sẽ sửa lại hóa đơn
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		String data = gs.toJson(hd);
-		TienIch.suaHoaDon(data);
+		BaseService.suaHoaDon(data);
 		return "redirect:/list-hoa-don";
 	}
 
 	// xEM chi tiết hóa đơn
 	@GetMapping(value = "/xem-ct-hoa-don/{idla}")
 	public String xemChitietHoaDon(@PathVariable(value = "idla") int idla, HttpServletRequest request, Model model) {
-		List<HoaDonChiTiet> list = TienIch.listHoaDonChiTiet(idla);
+		List<BillDetailEntity> list = BaseService.listHoaDonChiTiet(idla);
 		HttpSession session = request.getSession();
 		float tongtien = 0;
-		for (HoaDonChiTiet hdct : list) {
+		for (BillDetailEntity hdct : list) {
 			int Idspct = hdct.getIdSanPhamCt();
-			SanPhamChiTiet spct = TienIch.searchSanPhamCt(Idspct);
+			ProductDetailEntity spct = BaseService.searchSanPhamCt(Idspct);
 			hdct.setId_sp(spct);
 			// Tính tổng tiển
 			tongtien += hdct.getPrice() * hdct.getQuantity();
@@ -302,12 +311,12 @@ public class AdminController {
 		if (ROLE == null) {
 			return "redirect:/dang-nhap";
 		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
-			List<TinTuc> list = TienIch.listTinTuc();
+			List<NewsEntity> list = BaseService.listTinTuc();
 			model.addAttribute("list", list);
 			model.addAttribute("title", "Tạo tin tức");
 			model.addAttribute("tintuc", "Tin tức");
 			// Số lượng tin tức
-			int soluong = TienIch.countTinTuc();
+			int soluong = BaseService.countTinTuc();
 			model.addAttribute("sl", soluong);
 			return "admin/tintuc";
 		}
@@ -316,14 +325,14 @@ public class AdminController {
 
 	@GetMapping(value = "/insert-tin-tuc")
 	public String insertTinTuc(Model model) {
-		TinTuc tintuc = new TinTuc();
+		NewsEntity tintuc = new NewsEntity();
 		model.addAttribute("tintuc", tintuc);
 		return "admin/insert-tin-tuc";
 	}
 
 	// Thêm tin tức
 	@PostMapping(value = "/insert-tintuc-thanhcong")
-	public String insertThanhCong(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid TinTuc tintuc,
+	public String insertThanhCong(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc,
 			BindingResult result, @RequestParam(value = "information") String infor, Model model,
 			@RequestParam(value = "uploadfile") MultipartFile mf) {
 		if (result.hasErrors()) {
@@ -334,7 +343,7 @@ public class AdminController {
 		// Sau lấy về tên đường dẫn
 		String tendd = mf.getOriginalFilename();
 		/////////////////////////////////////////
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/Tintuc/insert";
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/insert";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
 		Date ngay = new Date();
@@ -345,13 +354,13 @@ public class AdminController {
 		String dulieu = gs.toJson(tintuc);
 
 		// Lấy ra cái list tin tức
-		String URLl = "http://localhost:8080/Fashion-Shop-Api/rest/Tintuc/list";
+		String URLl = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/";
 		WebTarget targetsp = client.target(URLl);
 		WebTarget target = client.target(URL);
 		String listSp = targetsp.request(MediaType.APPLICATION_JSON).get(String.class);
-		Type lok = new TypeToken<List<TinTuc>>() {
+		Type lok = new TypeToken<List<NewsEntity>>() {
 		}.getType();
-		List<TinTuc> spList = gs.fromJson(listSp, lok);
+		List<NewsEntity> spList = gs.fromJson(listSp, lok);
 		for (int i = 0; i < spList.size(); i++) {
 			if (spList.get(i).getImg().equals(tendd)) {
 				model.addAttribute("tintuc", tintuc);
@@ -374,7 +383,7 @@ public class AdminController {
 			fdm.field("dulieu", dulieu);
 			Response response = target.request().post(Entity.entity(fdm, MediaType.MULTIPART_FORM_DATA));
 			String trave = response.readEntity(String.class);
-			ThongBao tb = gs.fromJson(trave, ThongBao.class);
+			Notifies tb = gs.fromJson(trave, Notifies.class);
 			if (tb.getMacode() == 0) {
 				model.addAttribute("tintuc", tintuc);
 				model.addAttribute("tb", tb);
@@ -394,7 +403,7 @@ public class AdminController {
 	@GetMapping(value = "/delete-tin-tuc/{idla}")
 	public String deleteTinTuc(@PathVariable(value = "idla") int idla, HttpServletRequest request, Model model) {
 		// Xóa cả ở trong file lun
-		TinTuc timtintuc = TienIch.TimTinTuc(idla);
+		NewsEntity timtintuc = BaseService.TimTinTuc(idla);
 		String img = timtintuc.getImg();
 		String ddgoc = request.getServletContext().getRealPath("/public/img");
 		File file = new File(ddgoc + File.separator + img);
@@ -404,7 +413,7 @@ public class AdminController {
 		} else {
 			System.out.println("Xóa ko thành công");
 		}
-		ThongBao tb = TienIch.xoaTinTuc(idla);
+		Notifies tb = BaseService.xoaTinTuc(idla);
 		model.addAttribute("tb", tb);
 		return "redirect:/tin-tuc";
 	}
@@ -412,13 +421,13 @@ public class AdminController {
 	// Tìm tin tức
 	@GetMapping(value = "/search-tin-tuc/{idla}")
 	public String searchTinTuc(@PathVariable(value = "idla") int idla, Model model) {
-		TinTuc tintuc = TienIch.TimTinTuc(idla);
+		NewsEntity tintuc = BaseService.TimTinTuc(idla);
 		model.addAttribute("tintuc", tintuc);
 		return "admin/update-tin-tuc";
 	}
 
 	@PostMapping(value = "/update-tintuc-thanhcong")
-	public String updateTinTuc(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid TinTuc tintuc,
+	public String updateTinTuc(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc,
 			BindingResult result, @RequestParam(value = "information") String infor, Model model,
 			@RequestParam(value = "uploadfile") MultipartFile mf) throws IOException {
 		if (result.hasErrors()) {
@@ -434,17 +443,17 @@ public class AdminController {
 			img = tintuc.getImg();
 		}
 		// Cái ni là lấy cả id về
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/Tintuc/update";
-		String URLLIST = "http://localhost:8080/Fashion-Shop-Api/rest/Tintuc/list";
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/update";
+		String URLLIST = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
 		WebTarget target = client.target(URLLIST);
 		WebTarget target2 = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
-		Type typeOfT = new TypeToken<List<TinTuc>>() {
+		Type typeOfT = new TypeToken<List<NewsEntity>>() {
 		}.getType();
 		Gson gs2 = new Gson();
-		List<TinTuc> listok = gs2.fromJson(data, typeOfT);
+		List<NewsEntity> listok = gs2.fromJson(data, typeOfT);
 		Date ngay = new Date();
 		tintuc.setDay_tin(ngay);
 		tintuc.setImg(img);
@@ -459,7 +468,7 @@ public class AdminController {
 			if (listok.get(i).getImg().equals(img)) {
 				Response response = target2.request().post(Entity.entity(fdm, MediaType.MULTIPART_FORM_DATA));
 				String layve = response.readEntity(String.class);
-				ThongBao tb = gs.fromJson(layve, ThongBao.class);
+				Notifies tb = gs.fromJson(layve, Notifies.class);
 				if (tb.getMacode() == 0) {
 					model.addAttribute("tintuc", tintuc);
 					model.addAttribute("tb", tb);
@@ -488,7 +497,7 @@ public class AdminController {
 			// Và thêm vào formdata mang đi
 			Response response = target2.request().post(Entity.entity(fdm, MediaType.MULTIPART_FORM_DATA));
 			String tradulieu = response.readEntity(String.class);
-			ThongBao tb = gs.fromJson(tradulieu, ThongBao.class);
+			Notifies tb = gs.fromJson(tradulieu, Notifies.class);
 			if (tb.getMacode() == 0) {
 				model.addAttribute("tintuc", tintuc);
 				model.addAttribute("tbl", "Sửa tin tức không thành công !");
@@ -514,9 +523,9 @@ public class AdminController {
 			return "redirect:/dang-nhap";
 		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
 			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
-			List<LoaiSanPham> list = TienIch.phanTrangDanhMuc(sotrang);
+			List<TypeProductEntity> list = BaseService.phanTrangDanhMuc(sotrang);
 			model.addAttribute("list", list);
-			Long soluong = TienIch.countDanhMuc();
+			Long soluong = BaseService.countDanhMuc();
 			model.addAttribute("sl", soluong);
 			model.addAttribute("danhsach", "Danh sách danh mục");
 			model.addAttribute("tao", "Tạo danh mục");
@@ -527,17 +536,17 @@ public class AdminController {
 
 	@GetMapping(value = "/tim-danh-muc/{idla}")
 	public String suaDanhMuc(@PathVariable(value = "idla") int idla, Model model) {
-		LoaiSanPham lsp = TienIch.timDanhMuc(idla);
+		TypeProductEntity lsp = BaseService.timDanhMuc(idla);
 		model.addAttribute("lsp", lsp);
 		return "danhmuc/update";
 	}
 
 	// Sửa danh mục
 	@PostMapping(value = "/sua-danhmuc-tc")
-	public String suaThanhCongDanhMuc(@ModelAttribute(value = "lsp") LoaiSanPham loaisp, Model model) {
+	public String suaThanhCongDanhMuc(@ModelAttribute(value = "lsp") TypeProductEntity loaisp, Model model) {
 		Gson gs = new Gson();
 		String data = gs.toJson(loaisp);
-		ThongBao tb = TienIch.suaDanhMuc(data);
+		Notifies tb = BaseService.suaDanhMuc(data);
 		model.addAttribute("tb", tb);
 		if (tb.getMacode() == 1) {
 			return "redirect:/danh-muc";
@@ -547,17 +556,17 @@ public class AdminController {
 
 	@GetMapping(value = "/insert-danh-muc")
 	public String insertDanhMuc(Model model) {
-		LoaiSanPham lsp = new LoaiSanPham();
+		TypeProductEntity lsp = new TypeProductEntity();
 		model.addAttribute("lsp", lsp);
 		return "danhmuc/insert";
 	}
 
 	// Thêm danh mục
 	@PostMapping(value = "/them-danhmuc-tc")
-	public String themThanhCongDanhMuc(@ModelAttribute(value = "lsp") LoaiSanPham loaisp, Model model) {
+	public String themThanhCongDanhMuc(@ModelAttribute(value = "lsp") TypeProductEntity loaisp, Model model) {
 		Gson gs = new Gson();
 		String data = gs.toJson(loaisp);
-		ThongBao tb = TienIch.themDanhMuc(data);
+		Notifies tb = BaseService.themDanhMuc(data);
 		model.addAttribute("tb", tb);
 		if (tb.getMacode() == 1) {
 			return "redirect:/danh-muc";
@@ -569,12 +578,12 @@ public class AdminController {
 	@GetMapping(value = "/delete-danh-muc/{idxoa}")
 	public String xoaDanhMuc(@RequestParam(required = false) Map<String, String> param,
 			@PathVariable(value = "idxoa") int idxoa, Model model) {
-		ThongBao tb = TienIch.xoaDanhMuc(idxoa);
-		model.addAttribute("tb", tb);
+		Notifies tb = BaseService.xoaDanhMuc(idxoa);
+		model.addAttribute("tb", tb.getText() + " mắc khóa ngoại đến bảng sản phẩm");
 		int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
-		List<LoaiSanPham> list = TienIch.phanTrangDanhMuc(sotrang);
+		List<TypeProductEntity> list = BaseService.phanTrangDanhMuc(sotrang);
 		model.addAttribute("list", list);
-		Long soluong = TienIch.countDanhMuc();
+		Long soluong = BaseService.countDanhMuc();
 		model.addAttribute("sl", soluong);
 		model.addAttribute("danhsach", "Danh sách danh mục");
 		model.addAttribute("tao", "Tạo danh mục");
@@ -590,45 +599,38 @@ public class AdminController {
 		if (ROLE == null || ROLE.equals("USER")) {
 			return "redirect:/dang-nhap";
 		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
-			List<NhanHieu> listnh = TienIch.ListNhanHieu();
+			List<BranchEntity> listnh = BaseService.ListNhanHieu();
 			model.addAttribute("list", listnh);
-			List<LoaiSanPham> list = TienIch.ListLoaiSanPham();
+			List<TypeProductEntity> list = BaseService.ListLoaiSanPham();
 			model.addAttribute("lsp", list);
-			Sanpham sanpham = new Sanpham();
+			ProductEntity sanpham = new ProductEntity();
 			model.addAttribute("sanpham", sanpham);
 		}
 		return "sanpham/insert";
 	}
 
 	@PostMapping(value = "/them-san-phamok")
-	public String themSanPham(HttpServletRequest request, @ModelAttribute(value = "sanpham") @Valid Sanpham sanpham,
+	public String themSanPham(HttpServletRequest request, @ModelAttribute(value = "sanpham") @Valid ProductEntity sanpham,
 			BindingResult result, Model model, @RequestParam(value = "uploadFile") MultipartFile[] mf)
 			throws IOException {
 		if (result.hasErrors()) {
-			List<NhanHieu> listnh = TienIch.ListNhanHieu();
+			List<BranchEntity> listnh = BaseService.ListNhanHieu();
 			model.addAttribute("list", listnh);
-			List<LoaiSanPham> list = TienIch.ListLoaiSanPham();
+			List<TypeProductEntity> list = BaseService.ListLoaiSanPham();
 			model.addAttribute("lsp", list);
 			model.addAttribute("sanpham", sanpham);
 			return "sanpham/insert";
 		}
-		// Sửa lại import vào ảnh
-//		String tensp = request.getParameter("tensp");
-//		String mota = request.getParameter("descripe");
-//		String information = request.getParameter("information");
-//		float gianhap = Float.parseFloat(request.getParameter("gianhap"));
-//		float giacu = Float.parseFloat(request.getParameter("giacu"));
-//		float giamoi = Float.parseFloat(request.getParameter("giamoi"));
-//		int spview = Integer.parseInt(request.getParameter("nguoixem"));
+
 		int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
 		int brand = Integer.parseInt(request.getParameter("nhanhieu"));
 //		Boolean trangthai = Boolean.parseBoolean(request.getParameter("status"));
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/San-pham/insert-san-pham";
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/insert";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
-		NhanHieu nh = new NhanHieu();
+		BranchEntity nh = new BranchEntity();
 		nh.setId(brand);
-		LoaiSanPham lsp = new LoaiSanPham();
+		TypeProductEntity lsp = new TypeProductEntity();
 		lsp.setId(loaisp);
 		// Lấy cái ngày cập nhât lun
 		Date date = new Date();
@@ -642,18 +644,18 @@ public class AdminController {
 		WebTarget target = client.target(URL);
 		Response response = target.request().post(Entity.entity(dulieu, MediaType.APPLICATION_JSON));
 		String trave = response.readEntity(String.class);
-		ThongBao tb = gs.fromJson(trave, ThongBao.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
 		int masp = tb.getMacode();
-		Sanpham timsp = TienIch.searchIdSanPham(masp);
+		ProductEntity timsp = BaseService.searchIdSanPham(masp);
 		// Xong sau thêm vào danh mục hình ảnh
 		for (MultipartFile multipart : mf) {
 			// Đây là lưu lại fie hình ảnh
 			String ddgoc = request.getServletContext().getRealPath("/public/img");
 			String tenanh = multipart.getOriginalFilename();
 			try {
-				String mahinhanh = "http://localhost:8080/Fashion-Shop-Api/rest/Hinhanh/insert";
+				String mahinhanh = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/imager/insert";
 				WebTarget targetha = client.target(mahinhanh);
-				Hinhanh fileha = new Hinhanh(tenanh, timsp);
+				ImagerEntity fileha = new ImagerEntity(tenanh, timsp);
 				String dlhinhanh = gs.toJson(fileha);
 				File file = new File(ddgoc + File.separator + tenanh);
 				System.out.println(file);
@@ -668,21 +670,21 @@ public class AdminController {
 				fdm.field("dulieu", dlhinhanh);
 				Response response2 = targetha.request().post(Entity.entity(fdm, MediaType.MULTIPART_FORM_DATA));
 				String traveha = response2.readEntity(String.class);
-				ThongBao tbha = gs.fromJson(traveha, ThongBao.class);
+				Notifies tbha = gs.fromJson(traveha, Notifies.class);
 				if (tbha.getMacode() == 0) {
 					model.addAttribute("spok", sanpham);
-					List<NhanHieu> listnh = TienIch.ListNhanHieu();
+					List<BranchEntity> listnh = BaseService.ListNhanHieu();
 					model.addAttribute("list", listnh);
-					List<LoaiSanPham> list = TienIch.ListLoaiSanPham();
+					List<TypeProductEntity> list = BaseService.ListLoaiSanPham();
 					model.addAttribute("lsp", list);
 					model.addAttribute("tb", tb);
 					return "sanpham/insert";
 				}
 			} catch (Exception e) {
 				model.addAttribute("spok", sanpham);
-				List<NhanHieu> listnh = TienIch.ListNhanHieu();
+				List<BranchEntity> listnh = BaseService.ListNhanHieu();
 				model.addAttribute("list", listnh);
-				List<LoaiSanPham> list = TienIch.ListLoaiSanPham();
+				List<TypeProductEntity> list = BaseService.ListLoaiSanPham();
 				model.addAttribute("lsp", list);
 				model.addAttribute("loinl", "Xảy ra lỗi file hình ảnh đã được lưu!");
 				return "sanpham/insert";

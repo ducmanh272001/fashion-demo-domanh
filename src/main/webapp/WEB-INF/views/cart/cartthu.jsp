@@ -210,6 +210,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <h2 style="color: red; font-weight: bold; font-size: 24px; font-family: cursive;margin-top: 15px;text-align: center;">${tonkhoOk}</h2>
                     <div class="cart-area-table">
                     <form action="${rootpath}thanh-toan-tc" method="get" id="formcart">
                     <div class="okstyles" style="overflow-x: scroll;">
@@ -220,19 +221,21 @@
                                     <th>Name</th>
                                     <th>Color</th>
                                     <th>Size</th>
+                                    <th>id</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
                                     <th>Total</th>
                                 </tr>
                                 <c:forEach items="${lokk}" var="lop" varStatus="lpp">
                                 <tr>
-                                    <td><a href="${rootpath}xoa-session/${lpp.index}"><i class="fa-solid fa-trash-can"></i></a></td>
+                                    <td><a href="${rootpath}xoa-session/${lpp.index}?id=${lop.sanphamchitiet.mact.id}"><i class="fa-solid fa-trash-can"></i></a></td>
                                     <c:forEach items="${lop.sanphamchitiet.mact.listHinhAnh}" var="p" begin="0" end="0">
                                     <td><a href=""><img src="${rootpath}public/img/${p.name}" alt=""></a></td>
                                     </c:forEach>
                                     <td><a href="">${lop.sanphamchitiet.mact.name}</a></td>
                                     <td><a href="">${lop.sanphamchitiet.idms.name}</a></td>
                                     <td><a href="">${lop.sanphamchitiet.idkc.name}</a></td>
+                                    <td><a href="">${lop.sanphamchitiet.mact.id}</a></td>
                                     <td><fmt:formatNumber value="${lop.sanphamchitiet.mact.price_new}" type="currency"/></td>
                                     <td><label for="">Quanlity</label><input type="number" name="quantity" min="1" max="100" value="${lop.sanphamchitiet.amount}" onblur="myFuntion()"></td>
                                     <td><fmt:formatNumber value="${lop.sanphamchitiet.mact.price_new * lop.sanphamchitiet.amount}" type="currency"/></td>

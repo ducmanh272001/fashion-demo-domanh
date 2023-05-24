@@ -959,14 +959,14 @@ body {
 	align-items: center;
 }
 
-/*jquery*/
+
 .hidden {
 	opacity: 0;
 	visibility: hidden;
 	display: none;
 }
 
-/*Style carousel*/
+
 .owl-carousel .owl-nav {
 	position: absolute;
 	top: -60px;
@@ -1008,7 +1008,7 @@ body {
 	text-align: center;
 }
 
-/*designe hieu ung*/
+
 .banner-text p.p1 {
 	opacity: 0;
 	transform: translateY(-133px);
@@ -1112,36 +1112,21 @@ h3.hienra {
 	animation: xoays 2s forwards;
 }
 
-@
--webkit-keyframes xoays { 0% {
-	transform: translateZ(-1500px) rotateY(70deg);
+@-webkit-keyframes xoays {
+    0% {
+        -webkit-transform: translateZ(-1500px) rotateY(70deg);
+        transform: translateZ(-1500px) rotateY(70deg);
+    }
+    50% {
+        -webkit-transform: translateZ(0px) rotateY(70deg);
+        transform: translateZ(0px) rotateY(70deg);
+    }
+    100% {
+        -webkit-transform: translateZ(0px) rotateY(0deg);
+        transform: translateZ(0px) rotateY(0deg);
+    }
 }
 
-50
-%
-{
-transform
-:
-translateZ(
-0px
-)
-rotateY(
-70deg
-);
-}
-100
-%
-{
-transform
-:
-translateZ(
-0px
-)
-rotateY(
-0deg
-);
-}
-}
 
 /*style zoom ảnh*/
 .zooom-product {
@@ -2341,15 +2326,15 @@ table tbody tr td {
 	/* tốc độ */
 }
 
-@
--webkit-keyframes xoay {from { transform:rotate(0deg);
-	
-}
-
-to {
-	transform: rotate(860deg);
-}
-
+@-webkit-keyframes xoay {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(860deg);
+        transform: rotate(860deg);
+    }
 }
 
 /*cart-small*/
@@ -2426,7 +2411,7 @@ to {
 	font-size: 14px;
 }
 
-/* nooooo */
+
 .delete-produt {
 	position: absolute;
 	right: 0;
@@ -2517,7 +2502,7 @@ to {
 	opacity: 0.5;
 }
 
-/*Điện thoại*/
+
 @media only screen and (max-width: 600px) {
 	.top-header-contact li:last-child {
 		border: 1px solid gray;
@@ -2992,6 +2977,7 @@ to {
 .product-count-one {
 	display: flex;
 	justify-content: space-between;
+	width: 200px;
 }
 
 .product-count-one input {

@@ -55,12 +55,6 @@
 		       </td>
 		     </tr>
 		     <tr>
-		       <th>Nhập PRICE_OLD: </th>
-		       <td>
-		       <sform:input type="number" path="price_old"/>
-		       </td>
-		     </tr>
-		     <tr>
 		       <th>Nhập PRICE_NEW: </th>
 		       <td>
 		       <sform:input type="number" path="price_new"/>

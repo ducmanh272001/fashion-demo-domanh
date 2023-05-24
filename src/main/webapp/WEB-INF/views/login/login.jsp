@@ -156,7 +156,7 @@
 				<span class="error">${warning}</span>
 				<button type="submit">login</button>
 				<p class="message">
-					Not registered? <a href="${rootpath}dang-ky">Create an account</a>
+					<a href="${rootpath}forget-passord" style="color: red;">Forget password?</a> <a href="${rootpath}dang-ky">Create an account</a>
 				</p>
 			</sform:form>
 		</div>

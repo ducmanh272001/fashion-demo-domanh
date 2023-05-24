@@ -117,7 +117,7 @@
 				</div>
 			</div>
 			<div class="d-flex tbhoadon">
-				<span class="">${tb.text}</span>
+				<span class="">${tb}</span>
 			</div>
 			<div class="bangsanpham cols">
 				<table style="margin: 1em; text-align: center; width: 97%;">

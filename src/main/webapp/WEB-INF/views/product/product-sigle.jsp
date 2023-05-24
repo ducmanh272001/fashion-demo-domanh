@@ -282,12 +282,12 @@
 													href=""><i class="fa-solid fa-expand"></i></a> <a href=""><i
 													class="fa-solid fa-arrow-right-arrow-left"></i></a>
 											</div>
-											<form action="${rootpath}ao-nu/${l.id}" method="get">
+											<form action="${rootpath}product/ao-nu/${l.id}" method="get">
 												<button>View Product Detail</button>
 											</form>
 										</div>
 										<div class="content">
-											<a href="${rootpath}ao-nu/${l.id}">${l.name}</a>
+											<a href="${rootpath}product/ao-nu/${l.id}">${l.name}</a>
 											<p>
 												<fmt:formatNumber value="${l.price_new}" type="currency" />
 											</p>
