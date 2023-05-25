@@ -1,6 +1,7 @@
 package com.fashion.controller;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -182,7 +183,6 @@ public class RegisterController {
 			@RequestParam(name = "khongkhop", required = false) String khongkhop, BindingResult result, Model model,
 			HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
-		
 
 		if (result.hasErrors()) {
 			ReviewForgetPassword passwordSend = new ReviewForgetPassword();
@@ -213,21 +213,22 @@ public class RegisterController {
 		return "login/confirm-password";
 	}
 
-	
 	@GetMapping(value = { "forget/confirm-success" })
-	public String confirmSuccessError(@RequestParam(name = "khongkhop")String khongKhop,Model model,@RequestParam(name = "idok")Integer id) {
+	public String confirmSuccessError(@RequestParam(name = "khongkhop") String khongKhop, Model model,
+			@RequestParam(name = "idok") Integer id) {
 		if (khongKhop != null) {
-			if(khongKhop.equals("passwordInCorrect")) {
+			if (khongKhop.equals("passwordInCorrect")) {
 				khongKhop = "Mật khâủ không khớp nhau vui lòng nhập lại";
 			}
 			model.addAttribute("errorCode", khongKhop);
 		}
-		
+
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(id);
 		model.addAttribute("entity", userEntity);
 		return "login/chance-pass";
 	}
+
 	/// confirm-success
 	@PostMapping(value = "/success/password/chance")
 	public ModelAndView successPasswordChance(@ModelAttribute(value = "entity") @Valid UserEntity userEntity,
@@ -235,7 +236,7 @@ public class RegisterController {
 			@RequestParam(name = "nhappass", required = false) String pass) {
 		// nếu mật khẩu không khớp với mật khẩu vừa nhập thì thông báo
 		if (!userEntity.getPassword().equals(pass)) {
-            model.addAttribute("idok", userEntity.getId());
+			model.addAttribute("idok", userEntity.getId());
 			String redirectUrl = "redirect:/forget/confirm-success?khongkhop=passwordInCorrect";
 			return new ModelAndView(redirectUrl);
 		}
@@ -277,6 +278,7 @@ public class RegisterController {
 			}
 		}
 		if (userok.getPassword().equals(laipass)) {
+			
 			// Nếu mà 2 cái khớp nhau thì sẽ cho đi đăng ký tiếp
 			WebTarget target2 = client.target(URL);
 			// Thêm thôi không cần lấy về
@@ -289,7 +291,6 @@ public class RegisterController {
 			// Thêm id là user trước
 			int idrole = 3;
 			RoleEntity roleok = BaseService.timRole(idrole);
-//			roleok.set
 			UserRoleEntity userRole = new UserRoleEntity(userThem, roleok);
 			String dulieu = gs.toJson(userRole);
 			Notifies tb = BaseService.InsertUserRole(dulieu);

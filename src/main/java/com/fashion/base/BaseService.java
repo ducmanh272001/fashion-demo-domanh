@@ -231,6 +231,30 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getText();
 	}
+	
+	
+	public static String saveRole(String data) {
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/role/insert";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Gson gs = new Gson();
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb.getText();
+	}
+	
+	public static String updateRole(String data) {
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/role/update";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String suatc = response.readEntity(String.class);
+		Gson gs = new Gson();
+		Notifies tb = gs.fromJson(suatc, Notifies.class);
+		String thongbao = tb.getText();
+		return thongbao;
+	}
 
 	public static HotProductEntity findAllHotProductByIdsp(long idla) {
 		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/hot-product/find-idsp/" + idla;
