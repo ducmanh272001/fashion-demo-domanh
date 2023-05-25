@@ -534,7 +534,7 @@ public class ProductController {
 	public String aoNuA280(@PathVariable(value = "idla") int idok,@RequestParam(value = "tt", required = false) Integer tt,HttpServletRequest request, Model model) {
 		List<ImagerEntity> hinhanh = BaseService.selectAllHinhAnh();
 		// Nạp biến api Tìm theo id vào đây
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/search-id/"
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-id/"
 				+ idok;
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
@@ -549,7 +549,7 @@ public class ProductController {
 		sp.setListHinhAnh(listha);
 		model.addAttribute("sp", sp);
 		// Bỏ cái size vào đây
-		String kichco = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/size";
+		String kichco = "https://fashion-shop-api.herokuapp.com/rest/api/v1/size";
 		Client cliekc = ClientBuilder.newClient();
 		WebTarget targekc = cliekc.target(kichco);
 		String layve = targekc.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -558,7 +558,7 @@ public class ProductController {
 		List<SizeEntity> lsize = gs.fromJson(layve, typeOfT);
 		model.addAttribute("lsize", lsize);
 		// Lấy cái list màu sắc
-		String mausac = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/color";
+		String mausac = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color";
 		WebTarget ms = client.target(mausac);
 		String layms = ms.request(MediaType.APPLICATION_JSON).get(String.class);
 		Type typems = new TypeToken<List<ColorEntity>>() {

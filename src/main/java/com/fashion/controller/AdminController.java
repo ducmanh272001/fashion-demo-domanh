@@ -106,7 +106,7 @@ public class AdminController {
 	// Lấy ra dánh sách Nhãn hiệu
 	private static void listNhanHieu(Model model) {
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/branch/";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -124,7 +124,7 @@ public class AdminController {
 		int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
 		int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
 		// List sản phẩm ở đây
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/";
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -178,7 +178,7 @@ public class AdminController {
 	// Sửa khách hàng
 	@GetMapping(value = "/sua-khach-hang/{idla}")
 	public String suaKhachHang(@PathVariable(value = "idla") int idla, Model model) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/customer/search/" + idla;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/customer/search/" + idla;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -343,7 +343,7 @@ public class AdminController {
 		// Sau lấy về tên đường dẫn
 		String tendd = mf.getOriginalFilename();
 		/////////////////////////////////////////
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/insert";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/news/insert";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
 		Date ngay = new Date();
@@ -354,7 +354,7 @@ public class AdminController {
 		String dulieu = gs.toJson(tintuc);
 
 		// Lấy ra cái list tin tức
-		String URLl = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/";
+		String URLl = "https://fashion-shop-api.herokuapp.com/rest/api/v1/news/";
 		WebTarget targetsp = client.target(URLl);
 		WebTarget target = client.target(URL);
 		String listSp = targetsp.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -443,8 +443,8 @@ public class AdminController {
 			img = tintuc.getImg();
 		}
 		// Cái ni là lấy cả id về
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/update";
-		String URLLIST = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/news/";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/news/update";
+		String URLLIST = "https://fashion-shop-api.herokuapp.com/rest/api/v1/news/";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
 		WebTarget target = client.target(URLLIST);
@@ -625,7 +625,7 @@ public class AdminController {
 		int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
 		int brand = Integer.parseInt(request.getParameter("nhanhieu"));
 //		Boolean trangthai = Boolean.parseBoolean(request.getParameter("status"));
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/insert";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/insert";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
 		BranchEntity nh = new BranchEntity();
@@ -653,7 +653,7 @@ public class AdminController {
 			String ddgoc = request.getServletContext().getRealPath("/public/img");
 			String tenanh = multipart.getOriginalFilename();
 			try {
-				String mahinhanh = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/imager/insert";
+				String mahinhanh = "https://fashion-shop-api.herokuapp.com/rest/api/v1/imager/insert";
 				WebTarget targetha = client.target(mahinhanh);
 				ImagerEntity fileha = new ImagerEntity(tenanh, timsp);
 				String dlhinhanh = gs.toJson(fileha);

@@ -48,7 +48,7 @@ public class Product {
 
 	// Lấy ra cái list sản phẩm
 	private static void listSanPham(Model model) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/list-san-pham";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/list-san-pham";
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -62,7 +62,7 @@ public class Product {
 	// Lấy cái list nhãn hiệu và list loại sản phẩm
 	private static void ListNhanHieu(Model model) {
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/Nhan-hieu/list";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/Nhan-hieu/list";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -76,7 +76,7 @@ public class Product {
 	private static void ListLoaiSanPham(Model model) {
 		// Lấy ra loai sản phẩm
 		Gson gs = new Gson();
-		String URL2 = "http://localhost:8080/Fashion-Shop-Api/rest/The-loai/list";
+		String URL2 = "https://fashion-shop-api.herokuapp.com/rest/The-loai/list";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL2);
 		String listTl = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -102,7 +102,7 @@ public class Product {
 				System.out.println("Xóa ko thành công");
 			}
 		}
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/delete/" + xoaok;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/delete/" + xoaok;
 		// Xóa
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -128,7 +128,7 @@ public class Product {
 	/// Update sản phẩm
 	@GetMapping(value = "/update-san-pham/{idla}")
 	public String updateSanPham(@PathVariable(value = "idla") int idla, Model model) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/search-id/" + idla;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-id/" + idla;
 		// Lấy ra sản phẩm chi tiết
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -165,7 +165,7 @@ public class Product {
 		}
 		//
 		List<ImagerEntity> listha = new ArrayList<ImagerEntity>();
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/update-san-pham";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/update-san-pham";
 		Client client = ClientBuilder.newClient();
 		client.register(MultiPartFeature.class);
 		WebTarget target2 = client.target(URL);
@@ -209,7 +209,7 @@ public class Product {
 			for (MultipartFile multi : mf) {
 				for (ImagerEntity lmanh : listha) {
 					String ddgoc = request.getServletContext().getRealPath("/public/img");
-					String mahinhanh = "http://localhost:8080/Fashion-Shop-Api/rest/Hinhanh/update";
+					String mahinhanh = "https://fashion-shop-api.herokuapp.com/rest/Hinhanh/update";
 					WebTarget targetha = client.target(mahinhanh);
 					String dlhinhanh = gs.toJson(lmanh);
 					File file = new File(ddgoc + File.separator + lmanh.getName());

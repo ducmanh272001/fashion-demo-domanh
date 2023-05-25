@@ -29,14 +29,14 @@ public class ViewBillDetailController {
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		List<BillDetailEntity> list = BaseService.listHoaDonChiTiet(idla);
 		for (BillDetailEntity hdct : list) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product-detail/"
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/"
 				+ hdct.getIdSanPhamCt();
 		WebTarget spdetail = client.target(URL);
 		String detail = spdetail.request(MediaType.APPLICATION_JSON).get(String.class);
 		ProductDetailEntity spctok = gs.fromJson(detail, ProductDetailEntity.class);
 		hdct.setId_sp(spctok);
 		// Xong sau là set luôn cho biến Hóa đơn
-		String URL2 = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/bill/" + hdct.getIdHoaDon();
+		String URL2 = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill/" + hdct.getIdHoaDon();
 		WebTarget hoadonct = client.target(URL2);
 		String trave = hoadonct.request(MediaType.APPLICATION_JSON).get(String.class);
 		BillEntity hoadon = gs.fromJson(trave, BillEntity.class);

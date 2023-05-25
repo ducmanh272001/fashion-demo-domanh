@@ -257,13 +257,13 @@ public class RegisterController {
 			return "login/sign-up";
 		}
 
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/user/insert";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user/insert";
 		// Thêm vào api
 		userok.setEnabled(1);
 
 		// tìm xem tên đăng nhập đã có hay chưa nếu có rồi thì cút
 		Client client = ClientBuilder.newClient();
-		String URLLIST = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/user";
+		String URLLIST = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user";
 		Gson gs = new Gson();
 		WebTarget target = client.target(URLLIST);
 		String listUser = target.request(MediaType.APPLICATION_JSON).get(String.class);

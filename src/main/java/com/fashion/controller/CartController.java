@@ -60,7 +60,7 @@ public class CartController {
 		CartEntity cart = new CartEntity();
 		int amount = 0;
 		// Dữ liệu
-		String URL = "http://localhost:8080/Fashion-Shop-Api/api/v1/product/search-id/" + idsp;
+		String URL = "https://fashion-shop-api.herokuapp.com/api/v1/product/search-id/" + idsp;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String layve = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -113,7 +113,7 @@ public class CartController {
 	}
 
 	private static void listSanPham(Model model) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/San-pham/list-san-pham";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/San-pham/list-san-pham";
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -175,7 +175,7 @@ public class CartController {
 
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/search-id/" + idsp;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-id/" + idsp;
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		////////////// Dữ Liệu////////////////////////////////////
 		Client client = ClientBuilder.newClient();
@@ -335,7 +335,7 @@ public class CartController {
 		Client client = ClientBuilder.newClient();
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		// Kiểm tra xem có khách hàng này chưa
-		String ListKh = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/customer/";
+		String ListKh = "https://fashion-shop-api.herokuapp.com/rest/api/v1/customer/";
 		WebTarget lkh = client.target(ListKh);
 		String dlkh = lkh.request(MediaType.APPLICATION_JSON).get(String.class);
 		Type typeOfT = new TypeToken<List<CustomerEntity>>() {
@@ -355,10 +355,10 @@ public class CartController {
 				String dlhoadon = gs.toJson(hd);
 				int idhoadon = BaseService.InsertHoaDon(dlhoadon);
 				for (CartDetailEntity cart : lokk) {
-					String themok = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product-detail/insert";
-					String mausac = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/color/"
+					String themok = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/insert";
+					String mausac = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/"
 							+ cart.getSanphamchitiet().getIdms().getName();
-					String kichco = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/size/"
+					String kichco = "https://fashion-shop-api.herokuapp.com/rest/api/v1/size/"
 							+ cart.getSanphamchitiet().getIdkc().getName();
 					WebTarget tams = client.target(mausac);
 					WebTarget takc = client.target(kichco);
@@ -376,7 +376,7 @@ public class CartController {
 					String trave = response.readEntity(String.class);
 					Notifies tb = gs.fromJson(trave, Notifies.class);
 					// Sản phẩm chi tiết sẽ thuộc về 1 cái hóa đơn chi tiết
-					String HDCT = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/bill-detail/";
+					String HDCT = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill-detail/";
 					// Số lượng đơn
 					int sldon = cart.getSanphamchitiet().getAmount();
 
@@ -420,12 +420,12 @@ public class CartController {
 					// Tổng tiền
 					float tongtien = cart.getSanphamchitiet().getMact().getPrice_new();
 					// Lấy lại cái Hóa đơn lấy id ra
-					String TIMHOADON = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/bill/" + idhoadon;
+					String TIMHOADON = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill/" + idhoadon;
 					WebTarget thoadon = client.target(TIMHOADON);
 					String timhoadon = thoadon.request(MediaType.APPLICATION_JSON).get(String.class);
 					BillEntity hok = gs.fromJson(timhoadon, BillEntity.class);
 					/// Lấy cái id của hóa đơn chi tiết
-					String SPCT = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product-detail/" + tb.getMacode();
+					String SPCT = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/" + tb.getMacode();
 					WebTarget taspct = client.target(SPCT);
 					String dulieuspct = taspct.request(MediaType.APPLICATION_JSON).get(String.class);
 					ProductDetailEntity spctthem = gs.fromJson(dulieuspct, ProductDetailEntity.class);
@@ -465,10 +465,10 @@ public class CartController {
 		int idhoadon = BaseService.InsertHoaDon(dlhoadon);
 		// Thêm Hóa đơn chi Tiết
 		for (CartDetailEntity cart : lokk) {
-			String themok = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product-detail/insert";
-			String mausac = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/color/"
+			String themok = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/insert";
+			String mausac = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/"
 					+ cart.getSanphamchitiet().getIdms().getName();
-			String kichco = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/size/"
+			String kichco = "https://fashion-shop-api.herokuapp.com/rest/api/v1/size/"
 					+ cart.getSanphamchitiet().getIdkc().getName();
 			WebTarget tams = client.target(mausac);
 			WebTarget takc = client.target(kichco);
@@ -485,18 +485,18 @@ public class CartController {
 			String trave = response.readEntity(String.class);
 			Notifies tb = gs.fromJson(trave, Notifies.class);
 			// Sản phẩm chi tiết sẽ thuộc về 1 cái hóa đơn chi tiết
-			String HDCT = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/bill-detail/";
+			String HDCT = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill-detail/";
 			// Số lượng đơn
 			int sldon = cart.getSanphamchitiet().getAmount();
 			// Tổng tiền
 			float tongtien = cart.getSanphamchitiet().getMact().getPrice_new();
 			// Lấy lại cái Hóa đơn lấy id ra
-			String TIMHOADON = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/bill/" + idhoadon;
+			String TIMHOADON = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill/" + idhoadon;
 			WebTarget thoadon = client.target(TIMHOADON);
 			String timhoadon = thoadon.request(MediaType.APPLICATION_JSON).get(String.class);
 			BillEntity hok = gs.fromJson(timhoadon, BillEntity.class);
 			/// Lấy cái id của hóa đơn chi tiết
-			String SPCT = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product-detail/" + tb.getMacode();
+			String SPCT = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/" + tb.getMacode();
 			WebTarget taspct = client.target(SPCT);
 			String dulieuspct = taspct.request(MediaType.APPLICATION_JSON).get(String.class);
 			ProductDetailEntity spctthem = gs.fromJson(dulieuspct, ProductDetailEntity.class);
@@ -522,7 +522,7 @@ public class CartController {
 		HttpSession session = request.getSession();
 		try {
 			int idkh = (int) session.getAttribute("idkh");
-			String hoadonl = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/bill/search-makh/" + idkh;
+			String hoadonl = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill/search-makh/" + idkh;
 			WebTarget thoadon = client.target(hoadonl);
 			String sHoaDon = thoadon.request(MediaType.APPLICATION_JSON).get(String.class);
 			Type tHoaDon = new TypeToken<List<BillEntity>>() {
