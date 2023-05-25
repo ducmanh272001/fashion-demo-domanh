@@ -123,6 +123,16 @@
 		</dependency>
 	</dependencies>
 	<build>
+
+		<resources>
+			<resource>
+				<directory>src/main/java/language</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
