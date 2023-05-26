@@ -7,17 +7,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript">
-	function xoaTc(tenXoa) {
-		var xoaOk = confirm("Bạn có muốn xóa " + tenXoa
-				+ " ra khỏi danh sách không")
-		if (xoaOk) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-</script>
 <stag:url value="/" var="rootpath" />
 <fmt:setLocale value="${lag}" />
 <fmt:setBundle basename="language.mess_lag" />
@@ -63,7 +52,6 @@
 			</div>
 		</div>
 		
-		
 		<div class="thanhtrai dieuhuongan">
 			<span><a href=""><i class="fa-solid fa-xmark dongclose"></i></a></span>
 			<ul class="leftstyle">
@@ -86,6 +74,8 @@
 			</ul>
 		</div>
 		
+		
+		
 		<div class="left-header w20 float">
 			<ul class="menusanpham">
 				<li><a class="a1" href=""><i class="fa-brands fa-sellcast"></i>
@@ -102,8 +92,8 @@
 						class="fa-regular fa-newspaper"></i> Tin tức</a></li>
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
-				<li><a class="a8" href="${rootpath}nhan-hieu"><i
-						class="fa-brands fa-salesforce"></i> Nhãn hiệu</a></li>
+				<li><a class="a8" href=""><i
+						class="fa-brands fa-salesforce"></i> Doanh số</a></li>
 				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
 						Thu chi</a></li>
 				<li><a class="a10" href="loinhuan.html"><i
@@ -115,128 +105,50 @@
 		<div class="right-header w80 float">
 			<div class="right-headermanh">
 				<div class="logo-ok">
-					<div class="right-header-danhsachsanpham w66 float ">
-						<h3>
-							<fmt:message key="labelok"></fmt:message>
-						</h3>
+					<div class="right-header-danhsachsanpham ">
+						<h3>${danhsach}</h3>
 					</div>
-					<div>
-					 <a class="taosp" href="${rootpath}trang-them-san-pham"><i
-									class="fa-solid fa-plus"></i> Tạo SP</a>
+					<div class="right-header-taosanpham">
+						<ul>
+							<li><a href="${rootpath}insert-brand"><i
+									class="fa-solid fa-plus"></i>${tao}</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<form action="${rootpath}tim-kiem-sp"
-				class="nhapmasanpham cols" method="get">
-				<input type="text" name="tentim" value="${ltim.name}"
-					placeholder="Nhập tên sản phẩm cần tìm..." required="required">
-				<select name="nhanhieu">
-					<c:forEach items="${lnh}" var="ln">
-						<option value="${ln.id}">${ln.name_brand}</option>
-					</c:forEach>
-				</select> <select name="loaisanpham">
-					<c:forEach items="${lsp}" var="ls">
-						<option value="${ls.id}">${ls.loai_sp}</option>
-					</c:forEach>
-				</select>
-				<button>
-					<i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
-				</button>
-			</form>
-			<hr>
-			<span class="okclass">${oco}</span>
-			<c:if test="${tb.macode == 1}">
-				<span
-					style="display: flex; justify-content: center; text-decoration: underline; color: green; font-size: 20px; font-weight: bold;">${tb.text}</span>
-			</c:if>
-			<c:if test="${tb.macode == 0}">
-				<span
-					style="display: flex; justify-content: center; text-decoration: underline; color: red; font-size: 20px; font-weight: bold;">${tb.text}</span>
-			</c:if>
+			<div class="d-flex tbhoadon">
+				<span class="">${tb}</span>
+			</div>
 			<div class="bangsanpham cols">
-				<table class="sanphamadmin">
+				<table style="margin: 1em; text-align: center; width: 97%;">
 					<tr>
 						<th>Id</th>
-						<th>Tên</th>
-						<th>Thông tin</th>
-						<th>Gía nhập</th>
-						<th>Giá cũ</th>
-						<th>Giá mới</th>
-						<th>Số lượng</th>
-						<th>Ngày</th>
+						<th>Tên nhãn hiệu</th>
 						<th>Trạng thái</th>
-						<th>Thể loại</th>
-						<th>Nhãn hiệu</th>
-						<th>Sửa SP</th>
-						<th>Xóa SP</th>
+						<th>Sửa</th>
+						<th>Xóa</th>
 					</tr>
-					<c:if test="${ltim != null}">
+					<c:forEach items="${list}" var="l">
 						<tr>
-							<td>${ltim.id}</td>
-							<td title="${ltim.name}">${ltim.name}</td>
-							<td title="${ltim.information}">${ltim.information}</td>
-							<td><fmt:formatNumber value="${ltim.price_import}"
-									type="currency" /></td>
-							<td><fmt:formatNumber value="${ltim.price_import}"
-									type="currency" /></td>
-							<td><fmt:formatNumber value="${ltim.price_import}"
-									type="currency" /></td>
-							<td>${ltim.sp_view}</td>
-							<td><fmt:formatDate value="${ltim.day_update}"
-									dateStyle="short" /></td>
-							<td title="${ltim.status ? 'Đang hiển thị' : 'Đang ẩn'}">${l.status ? 'Đang hiển thị' : 'Đang ẩn'}</td>
-							<td title="${ltim.tennh}">${ltim.tennh}</td>
-							<td title="${ltim.tenloai}">${ltim.tenloai}</td>
-							<td><a href="${rootpath}update-san-pham/${ltim.id}"> <img
-									src="${rootpath}public/img/edit-validated-icon.png">
+							<td>${l.id}</td>
+							<td>${l.name_brand}</td>
+							<td>${l.status?'Đang hiển thị' : 'Không hiển thị'}</td>
+							<td><a href="${rootpath}find-brand/${l.id}"> <img
+									src="${rootpath}public/img/Pencil-icon (1).png">
 							</a></td>
-							<td><a href="${rootpath}delete-san-pham/${ltim.id}"> <img
-									src="${rootpath}public/img/Close-2-icon.png">
+							<td><a href="${rootpath}delete-brand/${l.id}"> <img
+									src="${rootpath}public/img/close-icon.png">
 							</a></td>
 						</tr>
-					</c:if>
-					<c:if test="${ltim == null}">
-						<c:forEach items="${list}" var="l">
-							<tr>
-								<td>${l.id}</td>
-								<td title="${l.name}">${l.name}</td>
-								<td title="${l.information}">${l.information}</td>
-								<td><fmt:formatNumber value="${l.price_import}"
-										type="currency" /></td>
-								<td><fmt:formatNumber value="${l.price_import}"
-										type="currency" /></td>
-								<td><fmt:formatNumber value="${l.price_import}"
-										type="currency" /></td>
-								<td>${l.sp_view}</td>
-								<td><fmt:formatDate value="${l.day_update}"
-										dateStyle="short" /></td>
-								<td title="${l.status ? 'Đang hiển thị' : 'Đang ẩn'}">${l.status ? 'Đang hiển thị' : 'Đang ẩn'}</td>
-								<td title="${l.tennh}">${l.tennh}</td>
-								<td title="${l.tenloai}">${l.tenloai}</td>
-								<td><a href="${rootpath}update-san-pham/${l.id}"> <img
-										src="${rootpath}public/img/edit-validated-icon.png">
-								</a></td>
-								<td><a
-									href="${rootpath}delete-san-pham/${l.id}?page=${sotrang}"
-									onclick="return xoaTc('${l.name}');"> <img
-										src="${rootpath}public/img/Close-2-icon.png">
-								</a></td>
-							</tr>
-						</c:forEach>
-					</c:if>
+					</c:forEach>
 				</table>
 			</div>
 			<div>
 				<ul class="sotrangadmin">
 					<c:forEach begin="1" end="${Math.ceil(sl / 8)}" var="i">
-						<li><a href="${rootpath}ql-san-pham?page=${i}">${i}</a></li>
+						<li><a href="${rootpath}nhan-hieu?page=${i}">${i}</a></li>
 					</c:forEach>
 				</ul>
-			</div>
-			<div class="footersanpham cols">
-				<p>
-					SL sản phẩm: <span style="font-size: 15px; font-weight: bold;">${sl}</span>
-				</p>
 			</div>
 		</div>
 	</header>

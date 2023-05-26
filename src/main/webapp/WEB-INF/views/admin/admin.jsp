@@ -96,8 +96,8 @@
 						class="fa-regular fa-newspaper"></i> Tin tức</a></li>
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
-				<li><a class="a8" href=""><i
-						class="fa-brands fa-salesforce"></i> Doanh số</a></li>
+				<li><a class="a8" href="${rootpath}nhan-hieu"><i
+						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
 						Thu chi</a></li>
 				<li><a class="a10" href="loinhuan.html"><i

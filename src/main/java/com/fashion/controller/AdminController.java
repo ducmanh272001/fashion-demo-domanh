@@ -155,9 +155,9 @@ public class AdminController {
 	// list Log
 
 	// Quản lý khách hàng
-	@GetMapping(value = {"/khach-hang"})
-	public String QuanLyKh(@RequestParam(required = false) Map<String, String> param, @RequestParam(value = "xoatc",required = false)String xoaOk,HttpServletRequest request,
-			Model model) {
+	@GetMapping(value = { "/khach-hang" })
+	public String QuanLyKh(@RequestParam(required = false) Map<String, String> param,
+			@RequestParam(value = "xoatc", required = false) String xoaOk, HttpServletRequest request, Model model) {
 		System.out.println(xoaOk);
 		HttpSession session = request.getSession();
 		String ROLE = (String) session.getAttribute("role");
@@ -169,7 +169,7 @@ public class AdminController {
 			model.addAttribute("lok", list);
 			Long soluong = BaseService.CountKhachHang();
 			model.addAttribute("sl", soluong);
-			model.addAttribute("xoaOk",xoaOk);
+			model.addAttribute("xoaOk", xoaOk);
 			return "khachhang/khachhang";
 		}
 		return "redirect:/dang-nhap";
@@ -253,10 +253,10 @@ public class AdminController {
 	@GetMapping(value = "/delete-hoadon/{idxoa}")
 	public String xoaHoaDon(@PathVariable(value = "idxoa") int idxoa,
 			@RequestParam(required = false) Map<String, String> param, Model model) {
-		
-		//Xóa hóa đơn chi tiết
+
+		// Xóa hóa đơn chi tiết
 		BaseService.deleteBillDetailFromBillId(idxoa);
-		
+
 		String xoatc = BaseService.xoaHoaDon(idxoa);
 		model.addAttribute("xoatc", xoatc);
 		// Nạp lại phân trang
@@ -332,8 +332,9 @@ public class AdminController {
 
 	// Thêm tin tức
 	@PostMapping(value = "/insert-tintuc-thanhcong")
-	public String insertThanhCong(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc,
-			BindingResult result, @RequestParam(value = "information") String infor, Model model,
+	public String insertThanhCong(HttpServletRequest request,
+			@ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc, BindingResult result,
+			@RequestParam(value = "information") String infor, Model model,
 			@RequestParam(value = "uploadfile") MultipartFile mf) {
 		if (result.hasErrors()) {
 			model.addAttribute("tintuc", tintuc);
@@ -534,11 +535,57 @@ public class AdminController {
 		return "redirect:/dang-nhap";
 	}
 
+	@GetMapping(value = "/nhan-hieu")
+	public String nhanhieu(@RequestParam(required = false) Map<String, String> param, HttpServletRequest request,
+			Model model) {
+		// Lấy role để so sanh 2 giá trị
+		HttpSession session = request.getSession();
+		String ROLE = (String) session.getAttribute("role");
+		if (ROLE == null) {
+			return "redirect:/dang-nhap";
+		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
+			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
+			List<BranchEntity> list = BaseService.phanTrangBrand(sotrang);
+			model.addAttribute("list", list);
+			Long soluong = BaseService.countThuongHieu();
+			model.addAttribute("sl", soluong);
+			model.addAttribute("danhsach", "Danh sách thương hiệu");
+			model.addAttribute("tao", "Tạo thương hiệu");
+			return "brand/list";
+		}
+		return "redirect:/dang-nhap";
+	}
+
 	@GetMapping(value = "/tim-danh-muc/{idla}")
 	public String suaDanhMuc(@PathVariable(value = "idla") int idla, Model model) {
 		TypeProductEntity lsp = BaseService.timDanhMuc(idla);
 		model.addAttribute("lsp", lsp);
 		return "danhmuc/update";
+	}
+
+	@GetMapping(value = "/find-brand//{idla}")
+	public String findBrand(@PathVariable(value = "idla") int idla, Model model) {
+		BranchEntity lsp = BaseService.findBrand(idla);
+		model.addAttribute("lsp", lsp);
+		return "brand/update";
+	}
+
+	// Xóa danh mục
+	@GetMapping(value = "/delete-brand/{idxoa}")
+	public String deleteBrand(@RequestParam(required = false) Map<String, String> param,
+			@PathVariable(value = "idxoa") int idxoa, Model model) {
+		Notifies tb = BaseService.deleteBrand(idxoa);
+		if (tb.getMacode() == 0) {
+			model.addAttribute("tb", tb.getText() + " mắc khóa ngoại đến bảng sản phẩm");
+		}
+		int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
+		List<BranchEntity> list = BaseService.phanTrangBrand(sotrang);
+		model.addAttribute("list", list);
+		Long soluong = BaseService.countThuongHieu();
+		model.addAttribute("sl", soluong);
+		model.addAttribute("danhsach", "Danh sách thương hiệu");
+		model.addAttribute("tao", "Tạo thương hiệu");
+		return "brand/list";
 	}
 
 	// Sửa danh mục
@@ -554,11 +601,43 @@ public class AdminController {
 		return "danhmuc/update";
 	}
 
+	@PostMapping(value = "/update-brand-success")
+	public String updateBrand(@ModelAttribute(value = "lsp") BranchEntity loaisp, Model model) {
+		Gson gs = new Gson();
+		String data = gs.toJson(loaisp);
+		Notifies tb = BaseService.updateBrand(data);
+		model.addAttribute("tb", tb);
+		if (tb.getMacode() == 1) {
+			return "redirect:/nhan-hieu";
+		}
+		return "brand/update";
+	}
+
 	@GetMapping(value = "/insert-danh-muc")
 	public String insertDanhMuc(Model model) {
 		TypeProductEntity lsp = new TypeProductEntity();
 		model.addAttribute("lsp", lsp);
 		return "danhmuc/insert";
+	}
+
+	@GetMapping(value = "/insert-brand")
+	public String inserBrand(Model model) {
+		BranchEntity lsp = new BranchEntity();
+		model.addAttribute("lsp", lsp);
+		return "brand/insert";
+	}
+
+	// Thêm danh mục
+	@PostMapping(value = "/insert-brand-success")
+	public String insertBrandSuccess(@ModelAttribute(value = "lsp") BranchEntity brand, Model model) {
+		Gson gs = new Gson();
+		String data = gs.toJson(brand);
+		Notifies tb = BaseService.insertBrand(data);
+		model.addAttribute("tb", tb);
+		if (tb.getText().equals("Thêm thành công")) {
+			return "redirect:/nhan-hieu";
+		}
+		return "brand/insert";
 	}
 
 	// Thêm danh mục
@@ -579,7 +658,9 @@ public class AdminController {
 	public String xoaDanhMuc(@RequestParam(required = false) Map<String, String> param,
 			@PathVariable(value = "idxoa") int idxoa, Model model) {
 		Notifies tb = BaseService.xoaDanhMuc(idxoa);
-		model.addAttribute("tb", tb.getText() + " mắc khóa ngoại đến bảng sản phẩm");
+		if (tb.getMacode() == 0) {
+			model.addAttribute("tb", tb.getText() + " mắc khóa ngoại đến bảng sản phẩm");
+		}
 		int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
 		List<TypeProductEntity> list = BaseService.phanTrangDanhMuc(sotrang);
 		model.addAttribute("list", list);
@@ -610,9 +691,9 @@ public class AdminController {
 	}
 
 	@PostMapping(value = "/them-san-phamok")
-	public String themSanPham(HttpServletRequest request, @ModelAttribute(value = "sanpham") @Valid ProductEntity sanpham,
-			BindingResult result, Model model, @RequestParam(value = "uploadFile") MultipartFile[] mf)
-			throws IOException {
+	public String themSanPham(HttpServletRequest request,
+			@ModelAttribute(value = "sanpham") @Valid ProductEntity sanpham, BindingResult result, Model model,
+			@RequestParam(value = "uploadFile") MultipartFile[] mf) throws IOException {
 		if (result.hasErrors()) {
 			List<BranchEntity> listnh = BaseService.ListNhanHieu();
 			model.addAttribute("list", listnh);
