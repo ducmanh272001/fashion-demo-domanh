@@ -332,9 +332,8 @@ public class AdminController {
 
 	// Thêm tin tức
 	@PostMapping(value = "/insert-tintuc-thanhcong")
-	public String insertThanhCong(HttpServletRequest request,
-			@ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc, BindingResult result,
-			@RequestParam(value = "information") String infor, Model model,
+	public String insertThanhCong(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc,
+			BindingResult result, @RequestParam(value = "information") String infor, Model model,
 			@RequestParam(value = "uploadfile") MultipartFile mf) {
 		if (result.hasErrors()) {
 			model.addAttribute("tintuc", tintuc);

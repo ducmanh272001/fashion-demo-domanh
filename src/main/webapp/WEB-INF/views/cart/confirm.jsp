@@ -38,18 +38,30 @@
 	}
 }
 
+a#paymentLink {
+	display: flex;
+	justify-content: center;
+	padding: 12px 34px;
+	background-color: #993346;
+	margin-top: 17px;
+	border-radius: 5px;
+	font-size: 19px;
+	color: white
+}
+
 .mycart {
 	padding: 10px;
 	margin: 10px;
 	border-radius: 5px;
 	box-shadow: 3px 5px 5px 1px grey;
 }
+
 h6.my-0 {
-    border: 2px solid black;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    padding-bottom: 4px;
+	border: 2px solid black;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	padding-bottom: 4px;
 }
 </style>
 </head>
@@ -93,13 +105,13 @@ h6.my-0 {
 				<div class="col-md-8 order-md-1">
 					<h4 class="mb-3" style="text-decoration: underline;">Thông tin
 						đặt hàng</h4>
-					<form class="needs-validation" action="${rootpath}thanh-toan-gh-tc"
-						method="post">
+					<form id="checkoutForm" class="needs-validation"
+						action="${rootpath}thanh-toan-gh-tc" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<label for="firstName" style="text-decoration: underline;">Full
 									name</label> <input name="tenkh" type="text" class="form-control"
-									id="firstName" readonly="readonly" value="${nd.fullName}">
+									id="firstName" value="${nd.fullName}">
 							</div>
 						</div>
 
@@ -117,8 +129,8 @@ h6.my-0 {
 						<div class="mb-3">
 							<label for="email" style="text-decoration: underline;">Email
 								<span class="text-muted">(Optional)</span>
-							</label> <input name="email" type="email" class="form-control" id="email"
-								placeholder="Nhập mail của bạn" value="${nd.name}" required="required">
+							</label> <input name="email"  class="form-control" id="email"
+								placeholder="Nhập mail của bạn" value="${nd.name}">
 						</div>
 
 						<div class="mb-3">
@@ -142,17 +154,52 @@ h6.my-0 {
 							</div>
 							<div class="col-md-4 mb-3">
 								<label for="state" style="text-decoration: underline;">Birthday<span>(Opitional)</span></label>
-								<input name="ngaysinh" type="date" required="required">
-							</div>
-							<div class="col-md-3 mb-3" style="display: none;">
-								<label for="zip">passwword</label> <input name="pass"
-									type="text" readonly="readonly" value="${nd.password}">
+								<input name="ngaysinh" id="ngaysinh" type="date" required="required">
 							</div>
 						</div>
 						<hr class="mb-4">
 						<button class="btn btn-primary btn-lg btn-block" type="submit">Continue
 							to checkout</button>
 					</form>
+					<div>
+						<a
+							href="${payment}"
+							id="paymentLink">Thanh toán qua VNPAY</a>
+					</div>
+
+					<script type="text/javascript">
+						document
+								.getElementById("paymentLink")
+								.addEventListener(
+										"click",
+										function(event) {
+											event.preventDefault(); // Ngăn chặn sự kiện mặc định của thẻ a
+											var payment = this.getAttribute("href");
+										    
+										    var firstName = encodeURIComponent(document.getElementById("firstName").value);
+										    var usname = encodeURIComponent(document.getElementById("username").value);
+										    var email = encodeURIComponent(document.getElementById("email").value);
+										    var address = encodeURIComponent(document.getElementById("address").value);
+										    var call = encodeURIComponent(document.getElementById("address2").value);
+										    var gender = encodeURIComponent(document.querySelector('input[name="gender"]:checked').value);
+										    var ngaysinh = encodeURIComponent(document.getElementById("ngaysinh").value);
+										    
+										    var params = "tenkh=" + firstName +
+										                 "&usname=" + usname +
+										                 "&email=" + email +
+										                 "&address=" + address +
+										                 "&call=" + call +
+										                 "&gender=" + gender +
+										                 "&ngaysinh=" + ngaysinh;
+										    
+										    var xhr = new XMLHttpRequest();
+										    xhr.open("POST", "${rootpath}thanh-toan-gh-tc", true);
+										    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+										    xhr.send(params);
+										    
+										    window.location.href = payment;
+										});
+					</script>
 				</div>
 			</div>
 		</div>

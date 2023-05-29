@@ -117,7 +117,7 @@
 				<table style="margin: 1em; text-align: center; width: 97%;" class="banghoadon">
 					<tr>
 						<th>Id</th>
-						<th>NgàY</th>
+						<th>Ngày</th>
 						<th>Tên</th>
 						<th>Địa chỉ</th>
 						<th>Call</th>

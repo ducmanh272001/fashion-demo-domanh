@@ -43,6 +43,7 @@ import com.fashion.entity.ColorEntity;
 import com.fashion.entity.ProductDetailEntity;
 import com.fashion.entity.ProductEntity;
 import com.fashion.entity.UserEntity;
+import com.fashion.entity.UserRoleEntity;
 import com.fashion.notify.Notifies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +61,7 @@ public class CartController {
 		CartEntity cart = new CartEntity();
 		int amount = 0;
 		// Dữ liệu
-		String URL = "https://fashion-shop-api.herokuapp.com/api/v1/product/search-id/" + idsp;
+		String URL = "http://localhost:8080/Fashion-Shop-Api/api/v1/product/search-id/" + idsp;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String layve = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -140,21 +141,21 @@ public class CartController {
 			soluongdon(request, m);
 			return "cart/cartthu";
 		}
-        for (CartDetailEntity cartDetailEntity : lokk) {
-        	int productId = cartDetailEntity.getSanphamchitiet().getMact().getId();	
-        	if(productId != 0) {
-        		ProductEntity productEntity = BaseService.searchIdSanPham(productId);
-        		if(cartDetailEntity.getSanphamchitiet().getAmount() > productEntity.getSp_view()) {
-        			m.addAttribute("lokk", lokk);
-        			tinhTongTien(request, m);
-        			soluongdon(request, m);
-        			String tonkhoOk = "Sản phẩm "+ productEntity.getName() + " còn " + productEntity.getSp_view() +" sản phẩm trong kho";
-        			m.addAttribute("tonkhoOk", tonkhoOk);
-        			return "cart/cartthu";
-        		}
-        	}
+		for (CartDetailEntity cartDetailEntity : lokk) {
+			int productId = cartDetailEntity.getSanphamchitiet().getMact().getId();
+			if (productId != 0) {
+				ProductEntity productEntity = BaseService.searchIdSanPham(productId);
+				if (cartDetailEntity.getSanphamchitiet().getAmount() > productEntity.getSp_view()) {
+					m.addAttribute("lokk", lokk);
+					tinhTongTien(request, m);
+					soluongdon(request, m);
+					String tonkhoOk = "Sản phẩm " + productEntity.getName() + " còn " + productEntity.getSp_view()
+							+ " sản phẩm trong kho";
+					m.addAttribute("tonkhoOk", tonkhoOk);
+					return "cart/cartthu";
+				}
+			}
 		}
-		
 
 		// List dơn hàng
 		m.addAttribute("list", lokk);
@@ -162,6 +163,14 @@ public class CartController {
 		tinhTongTien(request, m);
 		// Tên đăng nhập và full name
 		m.addAttribute("nd", dangNhap);
+		
+		session.setAttribute("passOk", dangNhap.getPassword());
+		
+		float tongtien = (Float) session.getAttribute("tongtien");
+        String tongtienok = String.valueOf(tongtien);
+        String url =  BaseService.getUrlpayment(tongtienok);
+        m.addAttribute("payment",url);
+        
 		return "cart/confirm";
 	}
 
@@ -242,6 +251,7 @@ public class CartController {
 		for (CartDetailEntity cct : lokk) {
 			tongtien += cct.getSanphamchitiet().getMact().getPrice_new() * cct.getSanphamchitiet().getAmount();
 		}
+		session.setAttribute("tongtien", tongtien);
 		model.addAttribute("tt", tongtien);
 		model.addAttribute("pvc", pvc);
 	}
@@ -298,6 +308,7 @@ public class CartController {
 		tinhTongTien(request, model);
 		// Lấy số lượng đơn
 		soluongdon(request, model);
+		
 		return "cart/cartthu";
 	}
 
@@ -320,7 +331,8 @@ public class CartController {
 		HttpSession session = request.getSession();
 		List<CartDetailEntity> lokk = (List<CartDetailEntity>) session.getAttribute("listct");
 		String fname = request.getParameter("tenkh");
-		String pass = request.getParameter("pass");
+		String passOk  = (String) session.getAttribute("passOk");
+		String pass = passOk;
 		String email = request.getParameter("email");
 		String diachi = request.getParameter("address");
 		String call = request.getParameter("call");
@@ -463,6 +475,7 @@ public class CartController {
 		hd.setStatus(true);
 		String dlhoadon = gs.toJson(hd);
 		int idhoadon = BaseService.InsertHoaDon(dlhoadon);
+
 		// Thêm Hóa đơn chi Tiết
 		for (CartDetailEntity cart : lokk) {
 			String themok = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/insert";
@@ -509,7 +522,10 @@ public class CartController {
 		session.removeAttribute("listct");
 		session.removeAttribute("dem");
 		return new ModelAndView("redirect:" + "/chi-tiet-don-hang");
+
 	}
+
+
 
 	/// Trang oder
 	@GetMapping(value = "/chi-tiet-don-hang")

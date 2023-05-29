@@ -31,6 +31,7 @@ import com.fashion.entity.RoleEntity;
 import com.fashion.entity.ProductDetailEntity;
 import com.fashion.entity.ProductEntity;
 import com.fashion.entity.NewsEntity;
+import com.fashion.entity.PaymentEntity;
 import com.fashion.entity.UserEntity;
 import com.fashion.entity.UserRoleEntity;
 import com.fashion.notify.Notifies;
@@ -74,6 +75,18 @@ public class BaseService {
 		return lstkh;
 	}
 
+	public static List<PaymentEntity> listPayment() {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/payment/list";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		Type typeOfT = new TypeToken<List<PaymentEntity>>() {
+		}.getType();
+		List<PaymentEntity> lstkh = gs.fromJson(data, typeOfT);
+		return lstkh;
+	}
+
 	public static List<Long> listLongIdSpFromHotProduct() {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/hot-product/listLongIdSP";
 		Client client = ClientBuilder.newClient();
@@ -110,7 +123,7 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getMacode();
 	}
-	
+
 	public static int insertCalcuate(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/calculate/insert";
 		Client client = ClientBuilder.newClient();
@@ -121,11 +134,7 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getMacode();
 	}
-	
-	
-	
-	
-	
+
 	public static long quantityCalcualate(Integer productId) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/calculate/search-quantity/" + productId;
 		Client client = ClientBuilder.newClient();
@@ -136,14 +145,6 @@ public class BaseService {
 		return kh;
 	}
 
-	
-	
-	
-	
-	
-	
-
-	
 	public static String deleteCalculate(Integer calculidateId) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/calculate/delete/" + calculidateId;
 		Client client = ClientBuilder.newClient();
@@ -157,7 +158,7 @@ public class BaseService {
 		String xoatc = tb.getText();
 		return xoatc;
 	}
-	
+
 	public static Notifies deleteBrand(Integer brandId) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/delete/" + brandId;
 		Client client = ClientBuilder.newClient();
@@ -170,7 +171,7 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb;
 	}
-	
+
 	public static String deleteAllCalculate() {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/calculate/delete-all";
 		Client client = ClientBuilder.newClient();
@@ -184,8 +185,7 @@ public class BaseService {
 		String xoatc = tb.getText();
 		return xoatc;
 	}
-	
-	
+
 	public static String deleteCalculateFromProductId(Integer productId) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/calculate/delete-productId/" + productId;
 		Client client = ClientBuilder.newClient();
@@ -199,7 +199,7 @@ public class BaseService {
 		String xoatc = tb.getText();
 		return xoatc;
 	}
-	
+
 	// Insert Hóa đơn
 	public static int InsertHoaDon(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill/";
@@ -211,16 +211,26 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getMacode();
 	}
-	
+
 	public static String saveBrand(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/insert";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
 		String trave = response.readEntity(String.class);
-		Gson gs = new Gson();	
+		Gson gs = new Gson();
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getText();
+	}
+
+	/// api/v1/payment
+
+	public static String getUrlpayment(String total) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/payment/create-payment?amount=" + total;
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		String trave = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		return trave;
 	}
 
 	public static CustomerEntity selectByKhachHang(int id) {
@@ -232,8 +242,7 @@ public class BaseService {
 		CustomerEntity kh = gs.fromJson(data, CustomerEntity.class);
 		return kh;
 	}
-	
-	
+
 	public static UserEntity selectUserFromEmail(String email) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user/search-email/" + email;
 		Client client = ClientBuilder.newClient();
@@ -255,8 +264,7 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getText();
 	}
-	
-	
+
 	public static String saveRole(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/role/insert";
 		Client client = ClientBuilder.newClient();
@@ -267,7 +275,7 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getText();
 	}
-	
+
 	public static String updateRole(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/role/update";
 		Client client = ClientBuilder.newClient();
@@ -289,10 +297,8 @@ public class BaseService {
 		HotProductEntity sp = gs.fromJson(trave, HotProductEntity.class);
 		return sp;
 	}
-	
-	
-	
-	public static List<CalculateEntity>  listCanculate(Integer productId) {
+
+	public static List<CalculateEntity> listCanculate(Integer productId) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/calculate/" + productId;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -303,7 +309,6 @@ public class BaseService {
 		List<CalculateEntity> list = gs.fromJson(data, typeOfT);
 		return list;
 	}
-	
 
 	public static List<ProductEntity> findAllProductsByIdList() {
 
@@ -464,14 +469,14 @@ public class BaseService {
 		WebTarget target = client.target(URL);
 		target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
 	}
-	
+
 	/// Sửa Khách Hàng
-		public static void updateUser(String data) {
-			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user/update";
-			Client client = ClientBuilder.newClient();
-			WebTarget target = client.target(URL);
-			target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
-		}
+	public static void updateUser(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user/update";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+	}
 
 	// Xóa khách hàng
 	public static String deleteKhachHang(int xoaid) {
@@ -538,20 +543,20 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb.getText();
 	}
-	
+
 	// Xóa hóa đơn chi t
-		public static String deleteBillDetailFromBillId(int billId) {
-			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill-detail/delete-hoa-don-ct/" + billId;
-			BillDetailEntity hd = new BillDetailEntity();
-			Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			String data = gs.toJson(hd);
-			Client client = ClientBuilder.newClient();
-			WebTarget target = client.target(URL);
-			Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
-			String trave = response.readEntity(String.class);
-			Notifies tb = gs.fromJson(trave, Notifies.class);
-			return tb.getText();
-		}
+	public static String deleteBillDetailFromBillId(int billId) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill-detail/delete-hoa-don-ct/" + billId;
+		BillDetailEntity hd = new BillDetailEntity();
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String data = gs.toJson(hd);
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb.getText();
+	}
 
 	// Xem chi tiết hóa đơn
 	public static ProductDetailEntity searchSanPhamCt(int idla) {
@@ -563,7 +568,6 @@ public class BaseService {
 		ProductDetailEntity spctok = gs.fromJson(detail, ProductDetailEntity.class);
 		return spctok;
 	}
-
 
 	// Lấy user
 	public static UserEntity kiemTraDangNhap(String taikhoan, String matkhau) {
@@ -1261,7 +1265,6 @@ public class BaseService {
 		return list;
 	}
 
-	
 	public static List<BranchEntity> phanTrangBrand(int sotrang) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/phan-trang/" + sotrang;
 		Client client = ClientBuilder.newClient();
@@ -1273,6 +1276,7 @@ public class BaseService {
 		List<BranchEntity> list = gs.fromJson(dulieu, typeOfT);
 		return list;
 	}
+
 	// Đếm số lượng danh mục
 	public static Long countDanhMuc() {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/type-product/count";
@@ -1282,16 +1286,16 @@ public class BaseService {
 		Long soluong = Long.parseLong(dulieu);
 		return soluong;
 	}
-	
+
 	// Đếm số lượng danh mục
-		public static Long countThuongHieu() {
-			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/count";
-			Client client = ClientBuilder.newClient();
-			WebTarget target = client.target(URL);
-			String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
-			Long soluong = Long.parseLong(dulieu);
-			return soluong;
-		}
+	public static Long countThuongHieu() {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/count";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		Long soluong = Long.parseLong(dulieu);
+		return soluong;
+	}
 
 	// thêm danh mục
 	public static Notifies themDanhMuc(String data) {
@@ -1304,21 +1308,19 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb;
 	}
-	
-	
+
 	// thêm danh mục
-		public static Notifies insertBrand(String data) {
-			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/insert";
-			Client client = ClientBuilder.newClient();
-			WebTarget target = client.target(URL);
-			Gson gs = new Gson();
-			Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
-			String trave = response.readEntity(String.class);
-			Notifies tb = gs.fromJson(trave, Notifies.class);
-			return tb;
-		}
-	
-	
+	public static Notifies insertBrand(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/insert";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Gson gs = new Gson();
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb;
+	}
+
 	public static Notifies updateProduct(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/update-san-pham";
 		Client client = ClientBuilder.newClient();
@@ -1341,19 +1343,18 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb;
 	}
-	
-	
+
 	// Sửa danh mục
-		public static Notifies updateBrand(String data) {
-			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/update";
-			Client client = ClientBuilder.newClient();
-			WebTarget target = client.target(URL);
-			Gson gs = new Gson();
-			Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
-			String trave = response.readEntity(String.class);
-			Notifies tb = gs.fromJson(trave, Notifies.class);
-			return tb;
-		}
+	public static Notifies updateBrand(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/update";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Gson gs = new Gson();
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb;
+	}
 
 	// xóa danh mục
 	public static Notifies xoaDanhMuc(int idxoa) {
@@ -1379,7 +1380,7 @@ public class BaseService {
 		TypeProductEntity lsp = gs.fromJson(data, TypeProductEntity.class);
 		return lsp;
 	}
-	
+
 	// Tìm danh mục
 	public static BranchEntity findBrand(int idla) {
 		Gson gs = new Gson();
@@ -1484,8 +1485,7 @@ public class BaseService {
 		List<ImagerEntity> list = gs.fromJson(dulieu, typeOfT);
 		return list;
 	}
-	
-	
-	///Save hot produtc
-	
+
+	/// Save hot produtc
+
 }
