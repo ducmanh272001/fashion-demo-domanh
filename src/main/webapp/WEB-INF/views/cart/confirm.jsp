@@ -144,19 +144,6 @@ h6.my-0 {
 							<input name="call" type="text" class="form-control" id="address2"
 								placeholder="Apartment or suite" required="required">
 						</div>
-
-						<div class="row">
-							<div class="col-md-5 mb-3">
-								<label for="country" style="text-decoration: underline;">Giới
-									tính</label> <br> <input type="radio" required="required"
-									name="gender" value="true">Nam <input type="radio"
-									required="required" name="gender" value="false">Nữ
-							</div>
-							<div class="col-md-4 mb-3">
-								<label for="state" style="text-decoration: underline;">Birthday<span>(Opitional)</span></label>
-								<input name="ngaysinh" id="ngaysinh" type="date" required="required">
-							</div>
-						</div>
 						<hr class="mb-4">
 						<button class="btn btn-primary btn-lg btn-block" type="submit">Continue
 							to checkout</button>
@@ -181,16 +168,12 @@ h6.my-0 {
 										    var email = encodeURIComponent(document.getElementById("email").value);
 										    var address = encodeURIComponent(document.getElementById("address").value);
 										    var call = encodeURIComponent(document.getElementById("address2").value);
-										    var gender = encodeURIComponent(document.querySelector('input[name="gender"]:checked').value);
-										    var ngaysinh = encodeURIComponent(document.getElementById("ngaysinh").value);
 										    
 										    var params = "tenkh=" + firstName +
 										                 "&usname=" + usname +
 										                 "&email=" + email +
 										                 "&address=" + address +
-										                 "&call=" + call +
-										                 "&gender=" + gender +
-										                 "&ngaysinh=" + ngaysinh;
+										                 "&call=" + call;
 										    
 										    var xhr = new XMLHttpRequest();
 										    xhr.open("POST", "${rootpath}thanh-toan-gh-tc", true);

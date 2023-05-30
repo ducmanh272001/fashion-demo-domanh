@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Soundbank;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -61,7 +62,7 @@ public class CartController {
 		CartEntity cart = new CartEntity();
 		int amount = 0;
 		// Dữ liệu
-		String URL = "http://localhost:8080/Fashion-Shop-Api/api/v1/product/search-id/" + idsp;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-id/" + idsp;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String layve = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -170,7 +171,7 @@ public class CartController {
         String tongtienok = String.valueOf(tongtien);
         String url =  BaseService.getUrlpayment(tongtienok);
         m.addAttribute("payment",url);
-        
+        System.out.println(url);
 		return "cart/confirm";
 	}
 
@@ -336,14 +337,7 @@ public class CartController {
 		String email = request.getParameter("email");
 		String diachi = request.getParameter("address");
 		String call = request.getParameter("call");
-		Boolean gioitinh = Boolean.parseBoolean(request.getParameter("gender"));
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date ngay = null;
-		try {
-			ngay = sdf.parse(request.getParameter("ngaysinh"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		
 		Client client = ClientBuilder.newClient();
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		// Kiểm tra xem có khách hàng này chưa
@@ -458,7 +452,7 @@ public class CartController {
 			}
 		}
 		// Trường hợp nếu mà không có khách hàng thfi thêm khách hàng
-		CustomerEntity khachhang = new CustomerEntity(fname, email, pass, diachi, call, ngay, gioitinh, true);
+		CustomerEntity khachhang = new CustomerEntity(fname, email, pass, diachi, call , true);
 
 		String datakh = gs.toJson(khachhang);
 		int MAKH = BaseService.InsertKhachHang(datakh);

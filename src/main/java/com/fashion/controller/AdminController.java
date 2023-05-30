@@ -742,7 +742,7 @@ public class AdminController {
 				System.out.println("Đường dẫn api");
 				byte luu[] = multipart.getBytes();
 				Path path = file.toPath();
-				Files.write(path, luu, StandardOpenOption.CREATE_NEW);
+				Files.write(path, luu, StandardOpenOption.CREATE);
 				// Đọc dữ liệu đã
 				FormDataMultiPart fdm = new FormDataMultiPart();
 				InputStream is = multipart.getInputStream();

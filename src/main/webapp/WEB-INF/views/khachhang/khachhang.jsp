@@ -117,7 +117,6 @@
 						<th>Điện thoại</th>
 						<th>Địa chỉ</th>
 						<th>Email</th>
-						<th>Giới tính</th>
 						<th>Trạng thái</th>
 						<th>Sửa kh</th>
 						<th>Xóa kh</th>
@@ -128,7 +127,6 @@
 							<td title="${l.call}">${l.call}</td>
 							<td title="${l.address}">${l.address}</td>
 							<td title="${l.email}">${l.email}</td>
-							<td>${l.gender ? 'Nam' : 'Nữ'}</td>
 							<c:if test="${l.status == true}">
 							<td>Hoạt động</td>
 							</c:if>
