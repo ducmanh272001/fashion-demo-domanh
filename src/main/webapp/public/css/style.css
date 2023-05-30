@@ -2661,7 +2661,9 @@ td {
 .hiennenmosearch {
     opacity: 1;
     visibility: visible;
-    transform: scale(1) translateX(0px) translateY(0px) rotate(0deg);
+    transform: scale(1) translateX(0px) translateY(0px);
+    position: relative;
+    z-index: 9999;
 }
 
 .nenmosearch form {

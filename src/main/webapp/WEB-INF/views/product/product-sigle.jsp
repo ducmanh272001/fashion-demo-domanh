@@ -24,18 +24,6 @@
 </head>
 
 <body>
-	<!-- nenmoseacrch -->
-	<div class="nenmosearch">
-		<span>&times;</span>
-		<div class="search-mo">
-			<form>
-				<input type="text" placeholder="Search here">
-				<button>
-					<i class="fa-solid fa-magnifying-glass"></i>
-				</button>
-			</form>
-		</div>
-	</div>
 	<!-- cart -->
 	<div class="cart-max">
 		<div class="cart-small">
