@@ -2659,13 +2659,15 @@ td {
     opacity: 0;
     visibility: hidden;
     transition: 1s;
-    transform: scale(0) translateX(200px) translateY(200px) rotate(860deg);
+    transform: scale(0) translateX(200px) translateY(200px);
 }
 
 .hiennenmosearch {
     opacity: 1;
     visibility: visible;
-    transform: scale(1) translateX(0px) translateY(0px) rotate(0deg);
+    transform: scale(1) translateX(0px) translateY(0px);
+    position: relative;
+    z-index: 9999;
 }
 
 .nenmosearch form {

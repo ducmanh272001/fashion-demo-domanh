@@ -151,7 +151,7 @@
 										<sform:errors cssClass="error" path="price_import"></sform:errors>
 									</div>
 									<div class="col-md-12">
-									<a class="aok">Giá mới sản phẩm</a>
+									<a class="aok">Giá sản phẩm</a>
 										<sform:input cssClass="chinhinput" type="number" path="price_new"/>
 										<sform:errors cssClass="error" path="price_new"></sform:errors>
 									</div>

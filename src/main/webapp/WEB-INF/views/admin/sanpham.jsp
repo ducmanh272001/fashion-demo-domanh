@@ -103,13 +103,9 @@
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
 				<li><a class="a8" href="${rootpath}nhan-hieu"><i
-						class="fa-brands fa-salesforce"></i> Nhãn hiệu</a></li>
-				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
-						Thu chi</a></li>
-				<li><a class="a10" href="loinhuan.html"><i
-						class="fa-solid fa-dollar-sign"></i> Lợi nhuận</a></li>
-				<li><a class="a11" href="thietlap.html"><i
-						class="fa-solid fa-list-check"></i> Thiết lập</a></li>
+						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
+				<li><a class="a10" href="${rootpath}payment/list"><i
+						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
@@ -160,12 +156,11 @@
 						<th>Tên</th>
 						<th>Thông tin</th>
 						<th>Gía nhập</th>
-						<th>Giá cũ</th>
-						<th>Giá mới</th>
+						<th>Giá tiền</th>
 						<th>Số lượng</th>
 						<th>Ngày</th>
 						<th>Trạng thái</th>
-						<th>Thể loại</th>
+						<th>Chất lượng</th>
 						<th>Nhãn hiệu</th>
 						<th>Sửa SP</th>
 						<th>Xóa SP</th>
@@ -177,9 +172,7 @@
 							<td title="${ltim.information}">${ltim.information}</td>
 							<td><fmt:formatNumber value="${ltim.price_import}"
 									type="currency" /></td>
-							<td><fmt:formatNumber value="${ltim.price_import}"
-									type="currency" /></td>
-							<td><fmt:formatNumber value="${ltim.price_import}"
+							<td><fmt:formatNumber value="${ltim.price_new}"
 									type="currency" /></td>
 							<td>${ltim.sp_view}</td>
 							<td><fmt:formatDate value="${ltim.day_update}"
@@ -203,10 +196,8 @@
 								<td title="${l.information}">${l.information}</td>
 								<td><fmt:formatNumber value="${l.price_import}"
 										type="currency" /></td>
-								<td><fmt:formatNumber value="${l.price_import}"
-										type="currency" /></td>
-								<td><fmt:formatNumber value="${l.price_import}"
-										type="currency" /></td>
+								<td><fmt:formatNumber value="${l.price_new}"
+										type="currency" /></td>	
 								<td>${l.sp_view}</td>
 								<td><fmt:formatDate value="${l.day_update}"
 										dateStyle="short" /></td>

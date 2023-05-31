@@ -3,40 +3,26 @@
 <%@taglib prefix="stag" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sform" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript">
-	function xoaTc(tenXoa) {
-		var xoaOk = confirm("Bạn có muốn xóa " + tenXoa
-				+ " ra khỏi danh sách không")
-		if (xoaOk) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-</script>
 <stag:url value="/" var="rootpath" />
-<fmt:setLocale value="${lag}" />
-<fmt:setBundle basename="language.mess_lag" />
+<fmt:setLocale value="${lag}"/>
+<fmt:setBundle basename="language.mess_lag"/>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="${rootpath}public/css/admins.css">
-<link rel="stylesheet"
-	href="plugin/dist/assets/owl.theme.default.min.css">
-<link rel="stylesheet" href="plugin/dist/assets/owl.carousel.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-<style type="text/css">
-.menusanpham li i {
-	padding-right: 15px;
-}
-</style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${rootpath}public/css/admins.css">
+    <link rel="stylesheet" href="plugin/dist/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="plugin/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style type="text/css">
+        .menusanpham li i{
+           padding-right: 15px;
+        }
+    </style>
 </head>
 <body>
 	<header>
@@ -85,6 +71,7 @@
 			</ul>
 		</div>
 		
+		
 		<div class="left-header w20 float">
 			<ul class="menusanpham">
 				<li><a class="a1" href=""><i class="fa-brands fa-sellcast"></i>
@@ -110,58 +97,39 @@
 		<div class="right-header w80 float">
 			<div class="right-headermanh">
 				<div class="logo-ok">
-					<div class="right-header-danhsachsanpham w66 float">
-						<h3>${tintuc}</h3>
-					</div>
-					<div>
-					   <a href="${rootpath}insert-tin-tuc"><i
-									class="fa-solid fa-plus"></i>${title}</a>
-					</div>
+				<div class="right-header-danhsachsanpham w66 float">
+					<h3>
+					    Danh sách đơn hàng qua VNPAY
+					</h3>
+				</div>
 				</div>
 			</div>
-			<span class="okclass">${oco}</span>
-			<c:if test="${tctintuc != null}">
-				<span
-					style="display: flex; justify-content: center; text-decoration: underline; color: green; font-size: 20px; font-weight: bold;">${tctintuc}</span>
-			</c:if>
-			<c:if test="${tb.macode == 1}">
-				<span
-					style="display: flex; justify-content: center; text-decoration: underline; color: green; font-size: 20px; font-weight: bold;">${tb.text}</span>
-			</c:if>
-			<c:if test="${tb.macode == 0}">
-				<span
-					style="display: flex; justify-content: center; text-decoration: underline; color: red; font-size: 20px; font-weight: bold;">${tb.text}</span>
-			</c:if>
+			<span>${xoaOk}</span>
 			<div class="bangsanpham cols">
 				<table class="sanphamadmin">
 					<tr>
-						<th>ID</th>
-						<th>Tiêu đề</th>
-						<th>Mô tả</th>
-						<th>Thuộc tính tin</th>
-						<th>Ngày đăng</th>
-						<th>Ảnh</th>
+						<th>Số Tiền</th>
+						<th>Ngân hàng</th>
+						<th>Thanh toán bằng</th>
+						<th>Ngày mua hàng</th>
+						<th>Id đơn hàng</th>
 						<th>Trạng thái</th>
-						<th>Sửa</th>
-						<th>Xóa</th>
 					</tr>
-					<c:forEach items="${list}" var="ltim">
+					<c:forEach items="${payments}" var="l">
 						<tr>
-							<td>${ltim.id}</td>
-							<td title="${ltim.title}">${ltim.title}</td>
-							<td title="${ltim.descripe}">${ltim.descripe}</td>
-							<td>${ltim.type_tin}</td>
-							<td><fmt:formatDate value="${ltim.day_tin}"
+						  <td><fmt:formatNumber value="${l.amount}"
+									type="currency" /></td>
+							<td title="${l.bankCode}">${l.bankCode}</td>
+							<td title="${l.cardType}">${l.cardType}</td>
+							<td><fmt:formatDate value="${l.datePayment}"
 									dateStyle="short" /></td>
-							<td><img class="anhtintuc"
-								src="${rootpath}public/img/${ltim.img}"></td>
-							<td>${ltim.status}</td>
-							<td><a href="${rootpath}search-tin-tuc/${ltim.id}"> <img
-									src="${rootpath}public/img/edit-validated-icon.png">
-							</a></td>
-							<td><a href="${rootpath}delete-tin-tuc/${ltim.id}"> <img
-									src="${rootpath}public/img/Close-2-icon.png">
-							</a></td>
+							<td title="${l.idhd}">${l.idhd}</td>
+							<c:if test="${l.response == 00}">
+							<td>Giao dịch thành công</td>
+							</c:if>
+							<c:if test="${l.response != 00}">
+							<td>Giao dịch không thành công</td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</table>
@@ -169,18 +137,13 @@
 			<div>
 				<ul class="sotrangadmin">
 					<c:forEach begin="1" end="${Math.ceil(sl / 8)}" var="i">
-						<li><a href="${rootpath}ql-san-pham?page=${i}">${i}</a></li>
+						<li><a href="${rootpath}payment/list?page=${i}">${i}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
-			<div class="footersanpham cols">
-				<p>
-					SL tin tức: <span style="font-size: 15px; font-weight: bold;">${sl}</span>
-				</p>
-			</div>
 		</div>
 	</header>
-	<script
+  <script
 		src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

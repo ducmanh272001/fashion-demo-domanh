@@ -98,12 +98,8 @@
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
 				<li><a class="a8" href="${rootpath}nhan-hieu"><i
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
-				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
-						Thu chi</a></li>
-				<li><a class="a10" href="loinhuan.html"><i
-						class="fa-solid fa-dollar-sign"></i> Lợi nhuận</a></li>
-				<li><a class="a11" href="thietlap.html"><i
-						class="fa-solid fa-list-check"></i> Thiết lập</a></li>
+				<li><a class="a10" href="${rootpath}payment/list"><i
+						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
 			</ul>
 		</div>
 		<div class="cangiua">
@@ -133,7 +129,7 @@
 							<a href=""><i class="fa-solid fa-cart-shopping"></i></a>
 						</div>
 						<div class="right-headerrv-chu float">
-							<p>Tổng tiền giá mới</p>
+							<p>Tổng giá sản phẩm</p>
 							<p>
 								<fmt:formatNumber value="${ttn}" type="currency" />
 							</p>

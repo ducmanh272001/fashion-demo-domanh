@@ -75,6 +75,18 @@ public class BaseService {
 		return lstkh;
 	}
 
+	public static List<PaymentEntity> payments(Integer pageNumber) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/payment/list/" + pageNumber;
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		Type typeOfT = new TypeToken<List<PaymentEntity>>() {
+		}.getType();
+		List<PaymentEntity> lstkh = gs.fromJson(data, typeOfT);
+		return lstkh;
+	}
+
 	public static List<PaymentEntity> listPayment() {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/payment/list";
 		Client client = ClientBuilder.newClient();
@@ -451,6 +463,16 @@ public class BaseService {
 		int SLKH = Integer.parseInt(dulieu);
 		return SLKH;
 	}
+	
+	
+		public static long countPayment() {
+			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/payment/count";
+			Client client = ClientBuilder.newClient();
+			WebTarget target = client.target(URL);
+			String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
+			int SLKH = Integer.parseInt(dulieu);
+			return SLKH;
+		}
 
 	// Lấy ra số lượng Hóa Đơn
 	public static int CountHoaDon() {
