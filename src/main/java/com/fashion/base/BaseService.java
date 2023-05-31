@@ -378,6 +378,18 @@ public class BaseService {
 		return lst;
 	}
 
+	
+	public static List<ProductEntity> listSanPham() {
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/";
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		Type typeOfT = new TypeToken<List<ProductEntity>>() {
+		}.getType();
+		List<ProductEntity> lst = gs.fromJson(data, typeOfT);
+		return lst;
+	}
 	// Tra ID
 	public static ProductEntity searchIdSanPham(int idla) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-id/" + idla;
@@ -1146,7 +1158,7 @@ public class BaseService {
 
 	// tìm kiếm sản phẩm
 	public static List<ProductEntity> selectByNameProduct(String tenla) {
-		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-name/" + tenla;
+		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/search-name/" + tenla;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

@@ -7,9 +7,11 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +23,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.springframework.stereotype.Controller;
@@ -34,17 +37,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fashion.base.BaseService;
-import com.fashion.entity.ImagerEntity;
-import com.fashion.entity.BillEntity;
 import com.fashion.entity.BillDetailEntity;
-import com.fashion.entity.CustomerEntity;
-import com.fashion.entity.TypeProductEntity;
-import com.fashion.entity.UserEntity;
-import com.fashion.notify.Notifies;
+import com.fashion.entity.BillEntity;
 import com.fashion.entity.BranchEntity;
+import com.fashion.entity.CustomerEntity;
+import com.fashion.entity.ImagerEntity;
+import com.fashion.entity.NewsEntity;
 import com.fashion.entity.ProductDetailEntity;
 import com.fashion.entity.ProductEntity;
-import com.fashion.entity.NewsEntity;
+import com.fashion.entity.TypeProductEntity;
+import com.fashion.notify.Notifies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -119,36 +121,57 @@ public class AdminController {
 	// Gửi cái form tìm kiếm sản phẩm ngay tại đây
 	@GetMapping(value = "/tim-kiem-sp")
 	public String timKiemSanPham(HttpServletRequest request, Model model) {
+		
+		List<ProductEntity> listSp = new ArrayList<>();
+		List<ProductEntity> listEntities = BaseService.listSanPham();
 		// Lấy tên tìm + nhãn hiệu + loại sản phẩm để tìm
 		String tentim = request.getParameter("tentim");
-		int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
-		int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
-		// List sản phẩm ở đây
-		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/";
-		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target(URL);
-		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
-		Type typeOfT = new TypeToken<List<ProductEntity>>() {
-		}.getType();
-		List<ProductEntity> listspp = gs.fromJson(data, typeOfT);
-		//////////////////////////////////
-		for (int i = 0; i < listspp.size(); i++) {
-			if (listspp.get(i).getName().equals(tentim) && listspp.get(i).getIdtheloai() == loaisp
-					&& listspp.get(i).getIdnhanhieu() == nhanhieu) {
-				model.addAttribute("ltim", listspp.get(i));
-				// Gửi lại cái list của nhan hiệu và list của loại sản phẩm
-				listNhanHieu(model);
-				List<TypeProductEntity> lst = BaseService.ListLoaiSanPham();
-				model.addAttribute("lsp", lst);
-				return "admin/sanpham";
+		if(StringUtils.isEmpty(tentim)) {
+			
+			if (request.getParameter("loaisanpham") != null) {
+				int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
+				for (ProductEntity productEntity : listEntities) {
+					if(productEntity.getIdtheloai() == loaisp) {
+						listSp.add(productEntity);
+					}
+				}
+				
+			}
+			if (request.getParameter("nhanhieu") != null) {
+				int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
+				for (ProductEntity productEntity : listEntities) {
+					if(productEntity.getIdnhanhieu() == nhanhieu) {
+						listSp.add(productEntity);
+					}
+				}
 			}
 		}
-		// Lạp lại cái list cho nhãn hiệu và list cho loại sản phẩm
-		listNhanHieu(model);
-		List<TypeProductEntity> lst = BaseService.ListLoaiSanPham();
-		model.addAttribute("lsp", lst);
-		model.addAttribute("oco", "Không tìm thấy sản phẩm!");
+		
+		
+		listSp.addAll(BaseService.selectByNameProduct(tentim));
+		
+		
+		if (request.getParameter("loaisanpham") != null) {
+			int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
+			for (ProductEntity productEntity : listSp) {
+				if(productEntity.getIdtheloai() == loaisp) {
+					listSp.add(productEntity);
+				}
+			}
+		}
+		if (request.getParameter("nhanhieu") != null) {
+			int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
+		    for (ProductEntity productEntity : listSp) {
+				if(productEntity.getIdnhanhieu() == nhanhieu) {
+					listSp.add(productEntity);
+				}
+			}
+		}
+		
+		model.addAttribute("lsp", listSp);
+		if(Objects.isNull(listSp)) {
+			model.addAttribute("oco", "Không tìm thấy sản phẩm!");
+		}
 		return "admin/sanpham";
 	}
 
@@ -332,8 +355,9 @@ public class AdminController {
 
 	// Thêm tin tức
 	@PostMapping(value = "/insert-tintuc-thanhcong")
-	public String insertThanhCong(HttpServletRequest request, @ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc,
-			BindingResult result, @RequestParam(value = "information") String infor, Model model,
+	public String insertThanhCong(HttpServletRequest request,
+			@ModelAttribute(value = "tintuc") @Valid NewsEntity tintuc, BindingResult result,
+			@RequestParam(value = "information") String infor, Model model,
 			@RequestParam(value = "uploadfile") MultipartFile mf) {
 		if (result.hasErrors()) {
 			model.addAttribute("tintuc", tintuc);

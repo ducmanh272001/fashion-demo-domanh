@@ -127,10 +127,12 @@
 				<input type="text" name="tentim" value="${ltim.name}"
 					placeholder="Nhập tên sản phẩm cần tìm..." required="required">
 				<select name="nhanhieu">
+				<option value="">Nhãn hiệu</option>
 					<c:forEach items="${lnh}" var="ln">
 						<option value="${ln.id}">${ln.name_brand}</option>
 					</c:forEach>
 				</select> <select name="loaisanpham">
+				<option value="">Loại sản phẩm</option>
 					<c:forEach items="${lsp}" var="ls">
 						<option value="${ls.id}">${ls.loai_sp}</option>
 					</c:forEach>
