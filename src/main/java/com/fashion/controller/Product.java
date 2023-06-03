@@ -62,7 +62,7 @@ public class Product {
 	// Lấy cái list nhãn hiệu và list loại sản phẩm
 	private static void ListNhanHieu(Model model) {
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		String URL = "https://fashion-shop-api.herokuapp.com/rest/Nhan-hieu/list";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/list";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -76,7 +76,7 @@ public class Product {
 	private static void ListLoaiSanPham(Model model) {
 		// Lấy ra loai sản phẩm
 		Gson gs = new Gson();
-		String URL2 = "https://fashion-shop-api.herokuapp.com/rest/The-loai/list";
+		String URL2 = "https://fashion-shop-api.herokuapp.com/rest/api/v1/type-product/list";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL2);
 		String listTl = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -209,7 +209,7 @@ public class Product {
 			for (MultipartFile multi : mf) {
 				for (ImagerEntity lmanh : listha) {
 					String ddgoc = request.getServletContext().getRealPath("/public/img");
-					String mahinhanh = "https://fashion-shop-api.herokuapp.com/rest/Hinhanh/update";
+					String mahinhanh = "https://fashion-shop-api.herokuapp.com/rest/api/v1/imager/update";
 					WebTarget targetha = client.target(mahinhanh);
 					String dlhinhanh = gs.toJson(lmanh);
 					File file = new File(ddgoc + File.separator + lmanh.getName());

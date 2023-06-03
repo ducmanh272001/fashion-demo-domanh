@@ -34,7 +34,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fashion.base.BaseService;
 import com.fashion.entity.BillDetailEntity;
@@ -52,6 +54,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 @Controller
+@SessionAttributes("lsp")
 public class AdminController {
 
 	@GetMapping(value = "/ql-san-pham")
@@ -66,8 +69,11 @@ public class AdminController {
 			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
 			model.addAttribute("sotrang", sotrang);
 			List<ProductEntity> list = BaseService.PhanTrang(sotrang);
+
 			model.addAttribute("list", list);
+
 			model.addAttribute("lsp", lsp);
+
 			listNhanHieu(model);
 			Long slsp = BaseService.count();
 			model.addAttribute("sl", slsp);
@@ -120,56 +126,68 @@ public class AdminController {
 
 	// Gửi cái form tìm kiếm sản phẩm ngay tại đây
 	@GetMapping(value = "/tim-kiem-sp")
-	public String timKiemSanPham(HttpServletRequest request, Model model) {
-		
+	public String timKiemSanPham(HttpServletRequest request, Model model, Map<String, String> param) {
+
 		List<ProductEntity> listSp = new ArrayList<>();
 		List<ProductEntity> listEntities = BaseService.listSanPham();
+		String nhanhieuString = request.getParameter("nhanhieu");
+		String loaisanpham = request.getParameter("loaisanpham");
 		// Lấy tên tìm + nhãn hiệu + loại sản phẩm để tìm
 		String tentim = request.getParameter("tentim");
-		if(StringUtils.isEmpty(tentim)) {
-			
-			if (request.getParameter("loaisanpham") != null) {
+		if (StringUtils.isEmpty(tentim)) {
+			if (loaisanpham != null && !loaisanpham.isEmpty()) {
 				int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
 				for (ProductEntity productEntity : listEntities) {
-					if(productEntity.getIdtheloai() == loaisp) {
+					if (productEntity.getIdtheloai() == loaisp) {
 						listSp.add(productEntity);
 					}
 				}
-				
+
 			}
-			if (request.getParameter("nhanhieu") != null) {
+			if (nhanhieuString != null && !nhanhieuString.isEmpty()) {
 				int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
 				for (ProductEntity productEntity : listEntities) {
-					if(productEntity.getIdnhanhieu() == nhanhieu) {
+					if (productEntity.getIdnhanhieu() == nhanhieu) {
+						listSp.add(productEntity);
+					}
+				}
+			}
+
+		} else {
+
+			listSp.addAll(BaseService.selectByNameProduct(tentim));
+
+			if (loaisanpham != null && !loaisanpham.isEmpty()) {
+				int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
+				for (ProductEntity productEntity : listSp) {
+					if (productEntity.getIdtheloai() == loaisp) {
+						listSp.add(productEntity);
+					}
+				}
+			}
+			if (nhanhieuString != null && !nhanhieuString.isEmpty()) {
+				int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
+				for (ProductEntity productEntity : listSp) {
+					if (productEntity.getIdnhanhieu() == nhanhieu) {
 						listSp.add(productEntity);
 					}
 				}
 			}
 		}
-		
-		
-		listSp.addAll(BaseService.selectByNameProduct(tentim));
-		
-		
-		if (request.getParameter("loaisanpham") != null) {
-			int loaisp = Integer.parseInt(request.getParameter("loaisanpham"));
-			for (ProductEntity productEntity : listSp) {
-				if(productEntity.getIdtheloai() == loaisp) {
-					listSp.add(productEntity);
-				}
-			}
-		}
-		if (request.getParameter("nhanhieu") != null) {
-			int nhanhieu = Integer.parseInt(request.getParameter("nhanhieu"));
-		    for (ProductEntity productEntity : listSp) {
-				if(productEntity.getIdnhanhieu() == nhanhieu) {
-					listSp.add(productEntity);
-				}
-			}
-		}
-		
-		model.addAttribute("lsp", listSp);
-		if(Objects.isNull(listSp)) {
+
+		model.addAttribute("list", listSp);
+
+		List<TypeProductEntity> lsp = BaseService.ListLoaiSanPham();
+		int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
+		model.addAttribute("sotrang", sotrang);
+
+		model.addAttribute("lsp", lsp);
+
+		listNhanHieu(model);
+		Long slsp = BaseService.count();
+		model.addAttribute("sl", listSp.size());
+
+		if (Objects.isNull(listSp)) {
 			model.addAttribute("oco", "Không tìm thấy sản phẩm!");
 		}
 		return "admin/sanpham";

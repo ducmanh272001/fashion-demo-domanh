@@ -30,6 +30,36 @@ $('#manhca').owlCarousel({
     }
 })
 
+
+
+$('#manhcatintuc').owlCarousel({
+    autoplay: true,
+    autoplayTimeout: 3000,
+    items: 3, 
+    loop: true,
+    autoplayHoverPause: true,
+    nav: true,
+    responsive:{
+        0:{
+            items:1,
+            dots:false
+        },
+        600:{
+            items:2,
+            dots:false
+        },
+        768:{
+            items:3,
+            dots:false 
+        },
+        1000:{
+            items:4,
+            dots:false
+        }
+    }
+})
+
+
  $(window).scroll(function(){
      var dem = $(this).scrollTop();
      if(dem >= 1500){

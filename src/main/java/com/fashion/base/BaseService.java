@@ -111,6 +111,29 @@ public class BaseService {
 		return lstkh;
 	}
 
+	public static int saveUser(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user/insert";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb.getMacode();
+	}
+	
+	public static UserEntity insertUser(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user/save";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		UserEntity tb = gs.fromJson(trave, UserEntity.class);
+		return tb;
+	}
+	
+	
 	// List SanPhamCHi tiết search id hoadon
 	public static List<BillDetailEntity> listHoaDonChiTiet(int id) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill-detail/search-id-hoadon/" + id;
@@ -215,6 +238,18 @@ public class BaseService {
 	// Insert Hóa đơn
 	public static int InsertHoaDon(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/bill/";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb.getMacode();
+	}
+	
+	
+	public static int savePayment(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/payment/insert";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
@@ -380,7 +415,7 @@ public class BaseService {
 
 	
 	public static List<ProductEntity> listSanPham() {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/";
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -1158,7 +1193,7 @@ public class BaseService {
 
 	// tìm kiếm sản phẩm
 	public static List<ProductEntity> selectByNameProduct(String tenla) {
-		String URL = "http://localhost:8080/Fashion-Shop-Api/rest/api/v1/product/search-name/" + tenla;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-name/" + tenla;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

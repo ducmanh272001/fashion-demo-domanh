@@ -115,7 +115,7 @@ public class CartController {
 	}
 
 	private static void listSanPham(Model model) {
-		String URL = "https://fashion-shop-api.herokuapp.com/rest/San-pham/list-san-pham";
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/San-pham/list-san-pham";
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
@@ -164,14 +164,14 @@ public class CartController {
 		tinhTongTien(request, m);
 		// Tên đăng nhập và full name
 		m.addAttribute("nd", dangNhap);
-		
+
 		session.setAttribute("passOk", dangNhap.getPassword());
-		
+
 		float tongtien = (Float) session.getAttribute("tongtien");
-        String tongtienok = String.valueOf(tongtien);
-        String url =  BaseService.getUrlpayment(tongtienok);
-        m.addAttribute("payment",url);
-        System.out.println(url);
+		String tongtienok = String.valueOf(tongtien);
+		String url = BaseService.getUrlpayment(tongtienok);
+		m.addAttribute("payment", url);
+		System.out.println(url);
 		return "cart/confirm";
 	}
 
@@ -309,7 +309,7 @@ public class CartController {
 		tinhTongTien(request, model);
 		// Lấy số lượng đơn
 		soluongdon(request, model);
-		
+
 		return "cart/cartthu";
 	}
 
@@ -332,12 +332,14 @@ public class CartController {
 		HttpSession session = request.getSession();
 		List<CartDetailEntity> lokk = (List<CartDetailEntity>) session.getAttribute("listct");
 		String fname = request.getParameter("tenkh");
-		String passOk  = (String) session.getAttribute("passOk");
-		String pass = passOk;
+		String passOk = null;
+		if (session.getAttribute("passOk") != null) {
+			 passOk = (String) session.getAttribute("passOk");
+		}
 		String email = request.getParameter("email");
 		String diachi = request.getParameter("address");
 		String call = request.getParameter("call");
-		
+
 		Client client = ClientBuilder.newClient();
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		// Kiểm tra xem có khách hàng này chưa
@@ -348,8 +350,7 @@ public class CartController {
 		}.getType();
 		List<CustomerEntity> listkh = gs.fromJson(dlkh, typeOfT);
 		for (int i = 0; i < listkh.size(); i++) {
-			if (listkh.get(i).getName().equals(fname) && listkh.get(i).getEmail().equals(email)
-					&& listkh.get(i).getPasswword().equals(pass)) {
+			if (listkh.get(i).getName().equals(fname) && listkh.get(i).getEmail().equals(email)) {
 				BillEntity hd = new BillEntity();
 				hd.setAddress(diachi);
 				hd.setNameKH(listkh.get(i).getName());
@@ -360,6 +361,8 @@ public class CartController {
 				hd.setStatus(true);
 				String dlhoadon = gs.toJson(hd);
 				int idhoadon = BaseService.InsertHoaDon(dlhoadon);
+				
+				session.setAttribute("billId", idhoadon);
 				for (CartDetailEntity cart : lokk) {
 					String themok = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product-detail/insert";
 					String mausac = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/"
@@ -452,7 +455,7 @@ public class CartController {
 			}
 		}
 		// Trường hợp nếu mà không có khách hàng thfi thêm khách hàng
-		CustomerEntity khachhang = new CustomerEntity(fname, email, pass, diachi, call , true);
+		CustomerEntity khachhang = new CustomerEntity(fname, email, passOk, diachi, call, true);
 
 		String datakh = gs.toJson(khachhang);
 		int MAKH = BaseService.InsertKhachHang(datakh);
@@ -518,8 +521,6 @@ public class CartController {
 		return new ModelAndView("redirect:" + "/chi-tiet-don-hang");
 
 	}
-
-
 
 	/// Trang oder
 	@GetMapping(value = "/chi-tiet-don-hang")

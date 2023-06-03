@@ -629,7 +629,7 @@ body {
 }
 
 .offer_timer_one {
-	background-image: url(../img/BANNERBESTSALLER.png);
+	background-image: url(../img/HOMEPAGE-04.jpg);
 	background-size: cover;
 	background-position: center;
 	padding: 145px 0px;
@@ -657,11 +657,14 @@ body {
 }
 
 .offer-time-text h2 {
-	color: black;
+	color: white;
 }
 
 .offer-time-text p {
-	color: gray;
+	color: white;
+}
+.clock{
+	color: red;
 }
 
 .offer-time-text a {
@@ -2657,7 +2660,7 @@ table tbody tr td {
 		background-position-x: -150px;
 	}
 	.offer_timer_one {
-		background-image: url(../img/BANNERBESTSALLER.png);
+		background-image: url(../img/HOMEPAGE-04.jpg);
 		background-position-x: -1000px;
 		background-color: #eac47de0;
 	}

@@ -26,18 +26,6 @@
 </head>
 <body>
 	<!-- nenmoseacrch -->
-	<div class="nenmosearch">
-		<span>&times;</span>
-		<div class="search-mo">
-			<form action="${rootpath}ket-qua-tim-kiem" method="get">
-				<input value="${ten}" type="text" placeholder="Search here"
-					name="name">
-				<button>
-					<i class="fa-solid fa-magnifying-glass"></i>
-				</button>
-			</form>
-		</div>
-	</div>
 	<!-- cart -->
 	<div class="cart-max">
 		<div class="cart-small">
@@ -215,27 +203,20 @@
 	</div>
 	<jsp:include page="/PhanTrang/Header/MainMenu.jsp"></jsp:include>
 	<!-- banner -->
-	<div class="banner-index">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="banner-index-text">
-						<h1>
-							<fmt:message key="banner" />
-							<span><fmt:message key="banner2" /></span>
-						</h1>
-						<h3>
-							<fmt:message key="banner3" />
-						</h3>
-						<a href=""> <fmt:message key="banner4" />
-						</a>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="banner-index-img">
-						<img src="${rootpath}public/img/man.png" alt="">
-					</div>
-				</div>
+	<div id="carouselExampleSlidesOnly" class="carousel slide"
+		data-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img class="d-block w-100"
+					src="${rootpath}public/img/banner-cfl-01.jpg" alt="First slide">
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100"
+					src="${rootpath}public/img/HOMEPAGE-01.jpeg" alt="Second slide">
+			</div>
+			<div class="carousel-item">
+				<img class="d-block w-100"
+					src="${rootpath}public/img/HOMEPAGE-02.jpeg" alt="Third slide">
 			</div>
 		</div>
 	</div>
@@ -244,27 +225,20 @@
 			<div class="row">
 				<div class="col-lg-4 col-md-6 product-ones">
 					<div class="product-one-boxed">
-						<img
-							src="${rootpath}public/img/duyen-dang-den-cong-so-cung-vaydam-voan.webp"
-							alt="" width="100%">
-					</div>
-					<div class="product-one-boxed">
-						<img src="${rootpath}public/img/banner nho 2.png" alt="" width="100%">
+						<img style="height: auto; border-radius: 6px"
+							src="${rootpath}public/img/Sub_Slider-2.jpeg" alt="" width="100%">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 product-ones">
 					<div class="product-one-boxed">
-						<img style="height: 433px"
-							src="${rootpath}public/img/ZT180049GN-1.jpg" alt="" width="100%">
+						<img style="height: auto; border-radius: 6px"
+							src="${rootpath}public/img/Polo_Premium.png" alt="" width="100%">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 product-ones">
 					<div class="product-one-boxed">
-						<img src="${rootpath}public/img/banner nho 1_2.png" alt=""
-							width="100%">
-					</div>
-					<div class="product-one-boxed">
-						<img src="${rootpath}public/img/banner2a.jpg" alt="" width="100%">
+						<img style="height: auto; border-radius: 6px"
+							src="${rootpath}public/img/ECOM-04.jpeg" alt="" width="100%">
 					</div>
 				</div>
 			</div>
@@ -303,9 +277,11 @@
 															</c:forEach>
 														</div>
 														<div class="icon-hot-product">
-															<a href="${rootpath}ao-nu/${l.id}"><i class="fa-regular fa-heart"></i></a> <a
-																class="open-quick" href="${rootpath}ao-nu/${l.id}"><i
-																class="fa-solid fa-expand"></i></a> <a href="${rootpath}ao-nu/${l.id}"><i
+															<a href="${rootpath}ao-nu/${l.id}"><i
+																class="fa-regular fa-heart"></i></a> <a class="open-quick"
+																href="${rootpath}ao-nu/${l.id}"><i
+																class="fa-solid fa-expand"></i></a> <a
+																href="${rootpath}ao-nu/${l.id}"><i
 																class="fa-solid fa-arrow-right-arrow-left"></i></a>
 														</div>
 														<form action="${roopath}product/ao-nu/${l.id}"
@@ -352,9 +328,11 @@
 															</c:forEach>
 														</div>
 														<div class="icon-hot-product">
-															<a href="${rootpath}ao-nu/${l.id}"><i class="fa-regular fa-heart"></i></a> <a
-																class="open-quick" href="${rootpath}ao-nu/${l.id}"><i
-																class="fa-solid fa-expand"></i></a> <a href="${rootpath}ao-nu/${l.id}"><i
+															<a href="${rootpath}ao-nu/${l.id}"><i
+																class="fa-regular fa-heart"></i></a> <a class="open-quick"
+																href="${rootpath}ao-nu/${l.id}"><i
+																class="fa-solid fa-expand"></i></a> <a
+																href="${rootpath}ao-nu/${l.id}"><i
 																class="fa-solid fa-arrow-right-arrow-left"></i></a>
 														</div>
 														<form action="${roopath}product/ao-nu/${ld.id}"
@@ -680,7 +658,7 @@
 
 
 		<h2>Sản phẩm bán chạy</h2>
-		
+
 		<ul class="nav nav-tabs" id="myTab" role="tablist">
 		</ul>
 
@@ -708,8 +686,9 @@
 													</c:forEach>
 												</div>
 												<div class="icon-hot-product">
-													<a href="${rootpath}ao-nu/${l.id}"><i class="fa-regular fa-heart"></i></a> <a
-														class="open-quick" href="${rootpath}ao-nu/${l.id}"><i
+													<a href="${rootpath}ao-nu/${l.id}"><i
+														class="fa-regular fa-heart"></i></a> <a class="open-quick"
+														href="${rootpath}ao-nu/${l.id}"><i
 														class="fa-solid fa-expand"></i></a> <a href=""><i
 														class="fa-solid fa-arrow-right-arrow-left"></i></a>
 												</div>
@@ -738,10 +717,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<div style="display: flex; justify-content: center; align-items: center;">
-						<h2>
-						    Sản phẩm nổi bật 
-						</h2>
+					<div
+						style="display: flex; justify-content: center; align-items: center;">
+						<h2>Sản phẩm nổi bật</h2>
 					</div>
 				</div>
 			</div>
@@ -765,9 +743,11 @@
 											</c:forEach>
 										</div>
 										<div class="icon-hot-product">
-											<a href="${rootpath}ao-nu/${l.id}"><i class="fa-regular fa-heart"></i></a> <a
-												class="open-quick" href="${rootpath}ao-nu/${l.id}"><i class="fa-solid fa-expand"></i></a>
-											<a href=""><i class="fa-solid fa-arrow-right-arrow-left"></i></a>
+											<a href="${rootpath}ao-nu/${l.id}"><i
+												class="fa-regular fa-heart"></i></a> <a class="open-quick"
+												href="${rootpath}ao-nu/${l.id}"><i
+												class="fa-solid fa-expand"></i></a> <a href=""><i
+												class="fa-solid fa-arrow-right-arrow-left"></i></a>
 										</div>
 										<form action="${roopath}product/ao-nu/${spct.id}" method="get">
 											<button>View Product Detail</button>
@@ -811,34 +791,36 @@
 				</div>
 			</div>
 			<div class="row">
-				<c:forEach items="${ltintuc}" var="o">
-					<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-						<div class="khoi">
-							<div class="blog-one-zoom wow bounceInUp" data-wow-delay="0.2s">
-								<div class="blog-one-img">
-									<!-- dẫn đến link -->
-									<a href="${rootpath}xem-tin-tuc/${o.id}"> <img
-										src="${rootpath}public/img/${o.img}" alt="">
-									</a>
-								</div>
-								<div class="blog-one-text">
-									<!-- dẫn đến link -->
-									<h5>
-										<a href=""> <fmt:formatDate value="${o.day_tin}"
-												dateStyle="short" />
+				<div class="owl-carousel owl-theme" id="manhcatintuc">
+					<c:forEach items="${ltintuc}" var="o">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+							<div class="khoi">
+								<div class="blog-one-zoom wow bounceInUp" data-wow-delay="0.2s">
+									<div class="blog-one-img">
+										<!-- dẫn đến link -->
+										<a href="${rootpath}xem-tin-tuc/${o.id}"> <img
+											src="${rootpath}public/img/${o.img}" alt="">
 										</a>
-									</h5>
-									<h4>
-										<a href="${rootpath}xem-tin-tuc/${o.id}"> ${o.descripe} </a>
-									</h4>
-									<a href="${rootpath}xem-tin-tuc/${o.id}" class="button"> <fmt:message
-											key="doc" /> <i class="fa-solid fa-arrow-right"></i>
-									</a>
+									</div>
+									<div class="blog-one-text">
+										<!-- dẫn đến link -->
+										<h5>
+											<a href=""> <fmt:formatDate value="${o.day_tin}"
+													dateStyle="short" />
+											</a>
+										</h5>
+										<h4>
+											<a href="${rootpath}xem-tin-tuc/${o.id}"> ${o.descripe} </a>
+										</h4>
+										<a href="${rootpath}xem-tin-tuc/${o.id}" class="button"> <fmt:message
+												key="doc" /> <i class="fa-solid fa-arrow-right"></i>
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 	</div>

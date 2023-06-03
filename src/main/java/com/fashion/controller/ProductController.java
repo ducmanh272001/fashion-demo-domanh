@@ -1,8 +1,10 @@
 package com.fashion.controller;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -532,8 +534,35 @@ public class ProductController {
 	///Ao nu
 	@GetMapping(value = {"/ao-nu/{idla}", "/ao-nu/{idla}/"})
 	public String aoNuA280(@PathVariable(value = "idla") int idok,@RequestParam(value = "tt", required = false) Integer tt,HttpServletRequest request, Model model) {
-		List<ImagerEntity> hinhanh = BaseService.selectAllHinhAnh();
 		// Nạp biến api Tìm theo id vào đây
+		
+		
+		List<String> lst = BaseService.sanPhamBanChay();
+		List<Long> longList = lst.stream()
+		                        .map(Long::parseLong)
+		                        .collect(Collectors.toList());
+
+        List<ProductEntity> sanPhamBanChay = new ArrayList<>();
+        
+        for (int i = 0; i < longList.size(); i++) {
+			ProductEntity productEntity =  BaseService.searchIdSanPham(longList.get(i).intValue());
+			sanPhamBanChay.add(productEntity);
+		}
+        
+        
+        List<ImagerEntity> hinhanh = BaseService.selectAllHinhAnh();
+		// Kiểm tra xem là nếu mà cái phần tử nào mà bằng với cái id hình ảnh thì thêm
+		// vào
+		for (int i = 0; i < sanPhamBanChay.size(); i++) {
+			for (int j = 0; j < hinhanh.size(); j++) {
+				if (sanPhamBanChay.get(i).getId() == hinhanh.get(j).getIdsp()) {
+					List<ImagerEntity> lhanh = BaseService.selectByIdSpHinhAnh(hinhanh.get(j).getIdsp());
+					sanPhamBanChay.get(i).setListHinhAnh(lhanh);
+				}
+			}
+		}
+		
+		
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/product/search-id/"
 				+ idok;
 		Gson gs = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -570,7 +599,7 @@ public class ProductController {
 		///sản phẩm sal phải từ 2 sảnphâm trở lên
 		// List sản phẩm nổi bật
 		
-
+		model.addAttribute("lspmt", sanPhamBanChay);
 		model.addAttribute("tonkho", tt);
 		// Số lượng đơn
 		HttpSession session = request.getSession();
@@ -585,6 +614,7 @@ public class ProductController {
 			dem += cct.getSanphamchitiet().getAmount();
 		}
 		model.addAttribute("dem", dem);
+		
 		
 		return "product/aonu/product-detail";
 	}

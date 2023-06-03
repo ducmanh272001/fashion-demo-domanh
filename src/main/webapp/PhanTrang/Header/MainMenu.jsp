@@ -7,7 +7,7 @@
 <fmt:setLocale value="${lag}"/>
 <fmt:setBundle basename="language.mess_lag"/>
   <!-- Main Menu -->
-  <div class="main-menu-ok">
+  <div class="main-menu-ok" style="background: linear-gradient(180deg,#8c8c8c 0%,rgba(217,217,217,0) 100%)">
     <div class="top-header">
         <div class="container">
             <div class="row">
