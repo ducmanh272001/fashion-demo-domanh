@@ -113,6 +113,9 @@ public class Product {
 		String trave = response.readEntity(String.class);
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		model.addAttribute("tb", tb);
+		//Xóa lun hot product 
+		String deleteOk = BaseService.deleteHotProduct(xoaok);
+		System.out.println(deleteOk);
 		// Nạp lại cái list
 		int sotrang = 1;
 		sotrang = Integer.parseInt(request.getParameter("page"));

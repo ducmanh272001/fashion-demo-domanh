@@ -234,6 +234,20 @@ public class BaseService {
 		String xoatc = tb.getText();
 		return xoatc;
 	}
+	
+	public static String deleteHotProduct(Integer productId) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/hot-product/delete/" + productId;
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		HotProductEntity hotProductEntity = new HotProductEntity();
+		Gson gs = new Gson();
+		String xoaOk = gs.toJson(hotProductEntity);
+		Response response = target.request().post(Entity.entity(xoaOk, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		String xoatc = tb.getText();
+		return xoatc;
+	}
 
 	// Insert Hóa đơn
 	public static int InsertHoaDon(String data) {
