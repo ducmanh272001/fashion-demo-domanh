@@ -107,11 +107,11 @@
 							<div class="form-items"
 								style="padding: 20px 290px; border: none;">
 								<div class="suafog">
-									<h3>Sửa danh mục</h3>
+									<h3>Sửa màu sắc</h3>
 									<p style="text-decoration: underline; color: red;">${tb.text}</p>
 									<p style="text-decoration: underline; color: red;">${loinl}</p>
 									<sform:form style="padding: 0px 133px;  padding-bottom: 46px;"
-										modelAttribute="lsp" action="${rootpath}sua-danhmuc-tc"
+										modelAttribute="lsp" action="${rootpath}sua-color-tc"
 										method="post">
 										<div class="col-md-12">
 											<sform:input cssClass="col-s-12" path="id" type="number"
@@ -119,8 +119,8 @@
 												readonly="true" />
 										</div>
 										<div class="col-md-12">
-											<sform:input cssClass="col-s-12" type="text" path="loai_sp"
-												cssStyle="width:150%;" placeholder="Nhập tên danh mục..." />
+											<sform:input cssClass="col-s-12" type="text" path="name"
+												cssStyle="width:150%;" placeholder="Nhập tên color..." />
 										</div>
 										<div class="col-md-12 mt-3">
 											<sform:radiobutton path="status" value="1" />
@@ -130,8 +130,7 @@
 										</div>
 										<div class="form-button mt-3">
 											<button type="submit" class="btn btn-primary suadanhmuc"
-												style="width: 133%; margin-left: 15px;">Sửa danh
-												mục</button>
+												style="width: 133%; margin-left: 15px;">Sửa</button>
 										</div>
 									</sform:form>
 								</div>

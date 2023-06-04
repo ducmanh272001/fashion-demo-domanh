@@ -35,26 +35,29 @@
 	display: flex;
 	justify-content: center;
 }
+
 .menusanpham li i {
 	padding-right: 15px;
 }
-.chinhinput{
+
+.chinhinput {
 	width: 100%;
-    padding: 9px 20px;
-    text-align: left;
-    border: 0;
-    outline: 0;
-    border-radius: 6px;
-    background-color: #fff;
-    font-size: 15px;
-    font-weight: 300;
-    color: #8D8D8D;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    margin-top: 16px;
+	padding: 9px 20px;
+	text-align: left;
+	border: 0;
+	outline: 0;
+	border-radius: 6px;
+	background-color: #fff;
+	font-size: 15px;
+	font-weight: 300;
+	color: #8D8D8D;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	margin-top: 16px;
 }
-.selectcss{
-   margin-top: 0px!important;
+
+.selectcss {
+	margin-top: 0px !important;
 }
 </style>
 </head>
@@ -97,14 +100,12 @@
 						class="fa-regular fa-newspaper"></i> Tin tức</a></li>
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
-				<li><a class="a8" href=""><i
-						class="fa-brands fa-salesforce"></i> Doanh số</a></li>
-				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
-						Thu chi</a></li>
-				<li><a class="a10" href="loinhuan.html"><i
-						class="fa-solid fa-dollar-sign"></i> Lợi nhuận</a></li>
-				<li><a class="a11" href="thietlap.html"><i
-						class="fa-solid fa-list-check"></i> Thiết lập</a></li>
+				<li><a class="a8" href="${rootpath}nhan-hieu"><i
+						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
+				<li><a class="a10" href="${rootpath}payment/list"><i
+						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
@@ -112,53 +113,68 @@
 				<div class="row">
 					<div class="form-holder">
 						<div class="form-content">
-							<div class="form-items"  style="padding: 20px 290px; border: none;">
-							<div class="suafog">
-								<h3>Sửa khách hàng</h3>
-								<p style="text-decoration: underline; color: red;">${tb.text}</p>
-								<p style="text-decoration: underline; color: red;">${loinl}</p>
-								<sform:form style="padding: 0px 133px;  padding-bottom: 46px;" modelAttribute="kh"
-									action="${rootpath}udate-kh-tc" method="post">
-									<div class="col-md-12">
-										 <sform:input cssClass="chinhinput col-s-12" cssStyle="width:150%;" type="number" path="id" readonly="true"/>									
-									</div>
-									<div class="col-md-12">
-										 <sform:input cssClass="col-s-12" type="text" path="name" cssStyle="width:150%;" placeholder="Nhập tên khách hàng..." maxlength="50"/>
-										  <sform:errors path="name" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<sform:input cssClass="col-s-12" type="text" cssStyle="width:150%;" path="passwword"/>
-										<sform:errors path="passwword" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<sform:input cssClass="chinhinput col-s-12" cssStyle="width:150%;"  type="text" path="address"/>
-										<sform:errors path="address" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<sform:input cssClass="chinhinput col-s-12" cssStyle="width:150%;" type="text" path="call"/>
-										<sform:errors path="call" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<sform:input cssClass="chinhinput col-s-12" cssStyle="width:150%;" type="text" path="email"/>
-										<sform:errors path="email" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<sform:input cssClass="chinhinput col-s-12" cssStyle="width:150%;" type="date" path="birthday"/>
-									</div>
-									<div class="col-md-12 mt-3">
-										<sform:radiobutton path="gender" value="true"/>Nam
-                                        <sform:radiobutton path="gender" value="false"/>Nữ
-									</div>
-									<div class="col-md-12" style="padding-top: 16px">
-										<sform:radiobutton path="status" value="true"/>Hoạt động
-                                        <sform:radiobutton path="status" value="false"/>Không hoạt động
-			 						</div>			
-									<div class="form-button mt-3">
-										<button type="submit" class="btn btn-primary suabtkh"
-											style="width: 140%;">Sửa khách hàng</button>
-									</div>
-								</sform:form>
-							</div>
+							<div class="form-items"
+								style="padding: 20px 290px; border: none;">
+								<div class="suafog">
+									<h3>Sửa khách hàng</h3>
+									<p style="text-decoration: underline; color: red;">${tb.text}</p>
+									<p style="text-decoration: underline; color: red;">${loinl}</p>
+									<sform:form style="padding: 0px 133px;  padding-bottom: 46px;"
+										modelAttribute="kh" action="${rootpath}udate-kh-tc"
+										method="post">
+										<div class="col-md-12">
+											<sform:input cssClass="chinhinput col-s-12"
+												cssStyle="width:150%;" type="number" path="id"
+												readonly="true" />
+										</div>
+										<div class="col-md-12">
+											<sform:input cssClass="col-s-12" type="text" path="name"
+												cssStyle="width:150%;" placeholder="Nhập tên khách hàng..."
+												maxlength="50" />
+											<sform:errors path="name" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<sform:input cssClass="col-s-12" type="text"
+												cssStyle="width:150%;" path="passwword" />
+											<sform:errors path="passwword" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<sform:input cssClass="chinhinput col-s-12"
+												cssStyle="width:150%;" type="text" path="address" />
+											<sform:errors path="address" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<sform:input cssClass="chinhinput col-s-12"
+												cssStyle="width:150%;" type="text" path="call" />
+											<sform:errors path="call" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<sform:input cssClass="chinhinput col-s-12"
+												cssStyle="width:150%;" type="text" path="email" />
+											<sform:errors path="email" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<sform:input cssClass="chinhinput col-s-12"
+												cssStyle="width:150%;" type="date" path="birthday" />
+										</div>
+										<div class="col-md-12 mt-3">
+											<sform:radiobutton path="gender" value="true" />
+											Nam
+											<sform:radiobutton path="gender" value="false" />
+											Nữ
+										</div>
+										<div class="col-md-12" style="padding-top: 16px">
+											<sform:radiobutton path="status" value="true" />
+											Hoạt động
+											<sform:radiobutton path="status" value="false" />
+											Không hoạt động
+										</div>
+										<div class="form-button mt-3">
+											<button type="submit" class="btn btn-primary suabtkh"
+												style="width: 140%;">Sửa khách hàng</button>
+										</div>
+									</sform:form>
+								</div>
 							</div>
 						</div>
 					</div>

@@ -95,7 +95,7 @@
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a10" href="${rootpath}payment/list"><i
 						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
-				<li><a class="a7" href="${rootpath}color"><i
+			  <li><a class="a7" href="${rootpath}color"><i
 						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
@@ -107,20 +107,14 @@
 							<div class="form-items"
 								style="padding: 20px 290px; border: none;">
 								<div class="suafog">
-									<h3>Sửa danh mục</h3>
+									<h3>Thêm màu sắc</h3>
 									<p style="text-decoration: underline; color: red;">${tb.text}</p>
-									<p style="text-decoration: underline; color: red;">${loinl}</p>
-									<sform:form style="padding: 0px 133px;  padding-bottom: 46px;"
-										modelAttribute="lsp" action="${rootpath}sua-danhmuc-tc"
+									<sform:form style="padding: 0px 90px;  padding-bottom: 46px;"
+										modelAttribute="lsp" action="${rootpath}insert-color-tc"
 										method="post">
 										<div class="col-md-12">
-											<sform:input cssClass="col-s-12" path="id" type="number"
-												cssStyle="width:150%; border: none; padding: 9px 20px; border-radius: 8px; color: gray;"
-												readonly="true" />
-										</div>
-										<div class="col-md-12">
-											<sform:input cssClass="col-s-12" type="text" path="loai_sp"
-												cssStyle="width:150%;" placeholder="Nhập tên danh mục..." />
+											<sform:input cssClass="col-s-12" type="text" path="name"
+												cssStyle="width:150%;" placeholder="Nhập tên màu sắc..." />
 										</div>
 										<div class="col-md-12 mt-3">
 											<sform:radiobutton path="status" value="1" />
@@ -129,9 +123,8 @@
 											Đang ẩn
 										</div>
 										<div class="form-button mt-3">
-											<button type="submit" class="btn btn-primary suadanhmuc"
-												style="width: 133%; margin-left: 15px;">Sửa danh
-												mục</button>
+											<button type="submit" class="btn btn-primary themdm"
+												style="width: 133%; margin-left: 15px;">Thêm màu sắc</button>
 										</div>
 									</sform:form>
 								</div>

@@ -100,6 +100,8 @@
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a10" href="${rootpath}payment/list"><i
 						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+			  <li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="cangiua">

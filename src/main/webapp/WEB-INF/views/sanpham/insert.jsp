@@ -30,24 +30,26 @@
 .menusanpham li i {
 	padding-right: 15px;
 }
-.aok{
- margin-left: 7px;
- font-weight: bold;
- font-size: 16px;
+
+.aok {
+	margin-left: 7px;
+	font-weight: bold;
+	font-size: 16px;
 }
-.chinhinput{
+
+.chinhinput {
 	width: 100%;
-    padding: 9px 20px;
-    text-align: left;
-    border: 0;
-    outline: 0;
-    border-radius: 6px;
-    background-color: #fff;
-    font-size: 15px;
-    font-weight: 300;
-    color: #8D8D8D;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
+	padding: 9px 20px;
+	text-align: left;
+	border: 0;
+	outline: 0;
+	border-radius: 6px;
+	background-color: #fff;
+	font-size: 15px;
+	font-weight: 300;
+	color: #8D8D8D;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 </style>
 </head>
@@ -91,14 +93,12 @@
 						class="fa-regular fa-newspaper"></i> Tin tức</a></li>
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
-				<li><a class="a8" href=""><i
-						class="fa-brands fa-salesforce"></i> Doanh số</a></li>
-				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
-						Thu chi</a></li>
-				<li><a class="a10" href="loinhuan.html"><i
-						class="fa-solid fa-dollar-sign"></i> Lợi nhuận</a></li>
-				<li><a class="a11" href="thietlap.html"><i
-						class="fa-solid fa-list-check"></i> Thiết lập</a></li>
+				<li><a class="a8" href="${rootpath}nhan-hieu"><i
+						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
+				<li><a class="a10" href="${rootpath}payment/list"><i
+						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
@@ -115,50 +115,57 @@
 									id="sanphamsubmit" enctype="multipart/form-data"
 									class="requires-validation them-san-pham">
 									<div class="col-md-12">
-									<a class="aok">Tên sản phẩm</a>
+										<a class="aok">Tên sản phẩm</a>
 										<sform:input type="text" path="name"
 											placeholder="Nhập tên sản phẩm..." maxlength="50" />
 										<sform:errors path="name" cssClass="error"></sform:errors>
 									</div>
 
 									<div class="col-md-12" style="padding-bottom: 16px;">
-									<a class="aok">Nội dung</a>
-										<sform:input value="${sanpham.descripe}" type="text" path="descripe" placeholder="Nhập tiêu đề..." />
+										<a class="aok">Nội dung</a>
+										<sform:input value="${sanpham.descripe}" type="text"
+											path="descripe" placeholder="Nhập tiêu đề..." />
 										<sform:errors cssClass="error" path="descripe"></sform:errors>
 									</div>
 									<div class="col-md-12">
-									<a class="aok">Mô tả</a>
-										<sform:textarea value="${sanpham.information}" path="information" placeholder="Describe yourself here..." rows="3" id="information"/>
+										<a class="aok">Mô tả</a>
+										<sform:textarea value="${sanpham.information}"
+											path="information" placeholder="Describe yourself here..."
+											rows="3" id="information" />
 										<sform:errors cssClass="error" path="information">${spok.information}</sform:errors>
 									</div>
 									<div class="col-md-12" style="padding-top: 16px;">
-									<a class="aok">Giá nhập sản phẩm</a>
-										<sform:input cssClass="chinhinput" value="${sanpham.price_import}" type="number"
-											path="price_import" placeholder="Giá nhập sản phẩm..."  step="10000" />
+										<a class="aok">Giá nhập sản phẩm</a>
+										<sform:input cssClass="chinhinput"
+											value="${sanpham.price_import}" type="number"
+											path="price_import" placeholder="Giá nhập sản phẩm..."
+											step="10000" />
 										<sform:errors cssClass="error" path="price_import"></sform:errors>
 									</div>
 									<div class="col-md-12" style="padding-top: 16px;">
-									<a class="aok">Giá mới sản phẩm</a>
-										<sform:input cssClass="chinhinput" value="${sanpham.price_new}" type="number"
-											path="price_new" placeholder="Nhập giá mới sản phẩm..." step="10000" />
+										<a class="aok">Giá mới sản phẩm</a>
+										<sform:input cssClass="chinhinput"
+											value="${sanpham.price_new}" type="number" path="price_new"
+											placeholder="Nhập giá mới sản phẩm..." step="10000" />
 										<sform:errors cssClass="error" path="price_new"></sform:errors>
 									</div>
 									<div class="col-md-12" style="padding-top: 16px;">
-									 <a class="aok">Số lượng</a>
-										<sform:input cssClass="chinhinput" value="${sanpham.sp_view}" type="number"
-											path="sp_view" step="1" placeholder="Nhập số người xem..." />
+										<a class="aok">Số lượng</a>
+										<sform:input cssClass="chinhinput" value="${sanpham.sp_view}"
+											type="number" path="sp_view" step="1"
+											placeholder="Nhập số người xem..." />
 									</div>
 									<div class="col-md-12">
-									<a class="aok">Loại sản phẩm</a>
-										<select class="form-select mt-3" name="loaisanpham">
+										<a class="aok">Loại sản phẩm</a> <select
+											class="form-select mt-3" name="loaisanpham">
 											<c:forEach items="${lsp}" var="l">
 												<option value="${l.id}">${l.loai_sp}</option>
 											</c:forEach>
 										</select>
 									</div>
 									<div class="col-md-12">
-									<a class="aok">Nhãn hiệu</a>
-										<select class="form-select mt-3" name="nhanhieu">
+										<a class="aok">Nhãn hiệu</a> <select class="form-select mt-3"
+											name="nhanhieu">
 											<c:forEach items="${list}" var="l">
 												<option value="${l.id}">${l.name_brand}</option>
 											</c:forEach>

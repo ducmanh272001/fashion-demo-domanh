@@ -3,26 +3,29 @@
 <%@taglib prefix="stag" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sform" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <stag:url value="/" var="rootpath" />
-<fmt:setLocale value="${lag}"/>
-<fmt:setBundle basename="language.mess_lag"/>
+<fmt:setLocale value="${lag}" />
+<fmt:setBundle basename="language.mess_lag" />
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${rootpath}public/css/admins.css">
-    <link rel="stylesheet" href="plugin/dist/assets/owl.theme.default.min.css">
-    <link rel="stylesheet" href="plugin/dist/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <style type="text/css">
-        .menusanpham li i{
-           padding-right: 15px;
-        }
-    </style>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="${rootpath}public/css/admins.css">
+<link rel="stylesheet"
+	href="plugin/dist/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="plugin/dist/assets/owl.carousel.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+<style type="text/css">
+.menusanpham li i {
+	padding-right: 15px;
+}
+</style>
 </head>
 <body>
 	<header>
@@ -48,7 +51,7 @@
 				<a href="${rootpath}log-out">Đăng xuất</a>
 			</div>
 		</div>
-		
+
 		<div class="thanhtrai dieuhuongan">
 			<span><a href=""><i class="fa-solid fa-xmark dongclose"></i></a></span>
 			<ul class="leftstyle">
@@ -70,8 +73,8 @@
 						class="fa-solid fa-right-from-bracket leftmenu"></i>Đăng xuất</a></li>
 			</ul>
 		</div>
-		
-		
+
+
 		<div class="left-header w20 float">
 			<ul class="menusanpham">
 				<li><a class="a1" href=""><i class="fa-brands fa-sellcast"></i>
@@ -92,16 +95,16 @@
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a10" href="${rootpath}payment/list"><i
 						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
 			<div class="right-headermanh">
 				<div class="logo-ok">
-				<div class="right-header-danhsachsanpham w66 float">
-					<h3>
-					    Danh sách đơn hàng qua VNPAY
-					</h3>
-				</div>
+					<div class="right-header-danhsachsanpham w66 float">
+						<h3>Danh sách đơn hàng qua VNPAY</h3>
+					</div>
 				</div>
 			</div>
 			<span>${xoaOk}</span>
@@ -117,18 +120,17 @@
 					</tr>
 					<c:forEach items="${payments}" var="l">
 						<tr>
-						  <td><fmt:formatNumber value="${l.amount}"
-									type="currency" /></td>
+							<td><fmt:formatNumber value="${l.amount}" type="currency" /></td>
 							<td title="${l.bankCode}">${l.bankCode}</td>
 							<td title="${l.cardType}">${l.cardType}</td>
 							<td><fmt:formatDate value="${l.datePayment}"
 									dateStyle="short" /></td>
 							<td title="${l.idhd}">${l.idhd}</td>
 							<c:if test="${l.response == 00}">
-							<td>Giao dịch thành công</td>
+								<td>Giao dịch thành công</td>
 							</c:if>
 							<c:if test="${l.response != 00}">
-							<td>Giao dịch không thành công</td>
+								<td>Giao dịch không thành công</td>
 							</c:if>
 						</tr>
 					</c:forEach>
@@ -143,7 +145,7 @@
 			</div>
 		</div>
 	</header>
-  <script
+	<script
 		src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

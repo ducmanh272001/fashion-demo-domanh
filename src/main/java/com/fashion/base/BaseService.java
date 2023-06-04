@@ -1347,6 +1347,18 @@ public class BaseService {
 		List<TypeProductEntity> list = gs.fromJson(dulieu, typeOfT);
 		return list;
 	}
+	
+	public static List<ColorEntity> pageColor(int sotrang) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/phan-trang/" + sotrang;
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Gson gs = new Gson();
+		String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		Type typeOfT = new TypeToken<List<ColorEntity>>() {
+		}.getType();
+		List<ColorEntity> list = gs.fromJson(dulieu, typeOfT);
+		return list;
+	}
 
 	public static List<BranchEntity> phanTrangBrand(int sotrang) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/phan-trang/" + sotrang;
@@ -1363,6 +1375,15 @@ public class BaseService {
 	// Đếm số lượng danh mục
 	public static Long countDanhMuc() {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/type-product/count";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		Long soluong = Long.parseLong(dulieu);
+		return soluong;
+	}
+	
+	public static Long countColor() {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/count";
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String dulieu = target.request(MediaType.APPLICATION_JSON).get(String.class);
@@ -1391,7 +1412,16 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb;
 	}
-
+	public static Notifies themColor(String data) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/insert";
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		Gson gs = new Gson();
+		Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb;
+	}
 	// thêm danh mục
 	public static Notifies insertBrand(String data) {
 		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/branch/insert";
@@ -1426,6 +1456,19 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb;
 	}
+	
+	// Sửa danh mục
+		public static Notifies updateColor(String data) {
+			String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/update";
+			Client client = ClientBuilder.newClient();
+			WebTarget target = client.target(URL);
+			Gson gs = new Gson();
+			Response response = target.request().post(Entity.entity(data, MediaType.APPLICATION_JSON));
+			String trave = response.readEntity(String.class);
+			Notifies tb = gs.fromJson(trave, Notifies.class);
+			return tb;
+		}
+
 
 	// Sửa danh mục
 	public static Notifies updateBrand(String data) {
@@ -1452,6 +1495,19 @@ public class BaseService {
 		Notifies tb = gs.fromJson(trave, Notifies.class);
 		return tb;
 	}
+	
+	public static Notifies deleteColor(int idxoa) {
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/delete/" + idxoa;
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		ColorEntity lsp = new ColorEntity();
+		Gson gs = new Gson();
+		String dulieu = gs.toJson(lsp);
+		Response response = target.request().post(Entity.entity(dulieu, MediaType.APPLICATION_JSON));
+		String trave = response.readEntity(String.class);
+		Notifies tb = gs.fromJson(trave, Notifies.class);
+		return tb;
+	}
 
 	// Tìm danh mục
 	public static TypeProductEntity timDanhMuc(int idla) {
@@ -1461,6 +1517,18 @@ public class BaseService {
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
 		TypeProductEntity lsp = gs.fromJson(data, TypeProductEntity.class);
+		return lsp;
+	}
+	
+	
+	// Tìm danh mục
+	public static ColorEntity detailColor(int idla) {
+		Gson gs = new Gson();
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/color/id/" + idla;
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(URL);
+		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
+		ColorEntity lsp = gs.fromJson(data, ColorEntity.class);
 		return lsp;
 	}
 

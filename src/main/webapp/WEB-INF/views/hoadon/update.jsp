@@ -91,14 +91,12 @@
 						class="fa-regular fa-newspaper"></i> Tin tức</a></li>
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
-				<li><a class="a8" href=""><i
-						class="fa-brands fa-salesforce"></i> Doanh số</a></li>
-				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
-						Thu chi</a></li>
-				<li><a class="a10" href="loinhuan.html"><i
-						class="fa-solid fa-dollar-sign"></i> Lợi nhuận</a></li>
-				<li><a class="a11" href="thietlap.html"><i
-						class="fa-solid fa-list-check"></i> Thiết lập</a></li>
+				<li><a class="a8" href="${rootpath}nhan-hieu"><i
+						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
+				<li><a class="a10" href="${rootpath}payment/list"><i
+						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header"
@@ -106,7 +104,7 @@
 			<div class="form-body">
 				<div class="form-holder" style="min-height: 50vh">
 					<div class="form-content">
-						<div class="form-items" style="min-width: 0px;border: none;">
+						<div class="form-items" style="min-width: 0px; border: none;">
 							<h3>Sửa hóa đơn</h3>
 							<p style="text-decoration: underline; color: red;">${tb.text}</p>
 							<sform:form style="padding: 0px 90px;  padding-bottom: 46px;"
@@ -122,22 +120,26 @@
 										maxlength="50" />
 								</div>
 								<div class="col-md-12 mt-3">
-									<sform:input type="text"  cssStyle="width:150%;" path="address" cssClass="col-s-12" />
+									<sform:input type="text" cssStyle="width:150%;" path="address"
+										cssClass="col-s-12" />
 								</div>
 								<div class="col-md-12">
-									<sform:input type="text" cssStyle="width:150%;" path="sdt" cssClass="col-s-12"/>
+									<sform:input type="text" cssStyle="width:150%;" path="sdt"
+										cssClass="col-s-12" />
 								</div>
 								<div class="col-md-12">
-									<sform:select  cssClass="col-s-12" path="status" cssStyle="width:150%;">
-									       <sform:option value="true">Đang chờ xử lý</sform:option>
-									       <sform:option value="false">Đã xử lý</sform:option>
-									 </sform:select>
+									<sform:select cssClass="col-s-12" path="status"
+										cssStyle="width:150%;">
+										<sform:option value="true">Đang chờ xử lý</sform:option>
+										<sform:option value="false">Đã xử lý</sform:option>
+									</sform:select>
 								</div>
 								<div class="col-md-12">
-									 <sform:input path="idmakh" type="hidden" readonly="true"/>
+									<sform:input path="idmakh" type="hidden" readonly="true" />
 								</div>
 								<div class="col-md-12">
-									<sform:input cssClass="chinhinput col-s-12" cssStyle="width:150%;" type="date" path="ngayban"/>
+									<sform:input cssClass="chinhinput col-s-12"
+										cssStyle="width:150%;" type="date" path="ngayban" />
 								</div>
 								<div class="form-button mt-3">
 									<button type="submit" class="btn btn-primary btnhoadon"

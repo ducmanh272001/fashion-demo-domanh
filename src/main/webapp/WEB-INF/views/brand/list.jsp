@@ -51,7 +51,7 @@
 				<a href="${rootpath}log-out">Đăng xuất</a>
 			</div>
 		</div>
-		
+
 		<div class="thanhtrai dieuhuongan">
 			<span><a href=""><i class="fa-solid fa-xmark dongclose"></i></a></span>
 			<ul class="leftstyle">
@@ -73,9 +73,9 @@
 						class="fa-solid fa-right-from-bracket leftmenu"></i>Đăng xuất</a></li>
 			</ul>
 		</div>
-		
-		
-		
+
+
+
 		<div class="left-header w20 float">
 			<ul class="menusanpham">
 				<li><a class="a1" href=""><i class="fa-brands fa-sellcast"></i>
@@ -96,6 +96,8 @@
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a10" href="${rootpath}payment/list"><i
 						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">

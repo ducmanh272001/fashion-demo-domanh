@@ -42,6 +42,7 @@ import com.fashion.base.BaseService;
 import com.fashion.entity.BillDetailEntity;
 import com.fashion.entity.BillEntity;
 import com.fashion.entity.BranchEntity;
+import com.fashion.entity.ColorEntity;
 import com.fashion.entity.CustomerEntity;
 import com.fashion.entity.ImagerEntity;
 import com.fashion.entity.NewsEntity;
@@ -576,6 +577,27 @@ public class AdminController {
 		return "redirect:/dang-nhap";
 	}
 
+	@GetMapping(value = "/color")
+	public String color(@RequestParam(required = false) Map<String, String> param, HttpServletRequest request,
+			Model model) {
+
+		HttpSession session = request.getSession();
+		String ROLE = (String) session.getAttribute("role");
+		if (ROLE == null) {
+			return "redirect:/dang-nhap";
+		} else if (ROLE.equals("ADMIN") || ROLE.equals("EDITOR")) {
+			int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
+			List<ColorEntity> list = BaseService.pageColor(sotrang);
+			model.addAttribute("list", list);
+			Long soluong = BaseService.countColor();
+			model.addAttribute("sl", soluong);
+			model.addAttribute("danhsach", "Danh sách màu sắc");
+			model.addAttribute("tao", "Tạo màu sắc");
+			return "admin/color";
+		}
+		return "redirect:/dang-nhap";
+	}
+
 	@GetMapping(value = "/nhan-hieu")
 	public String nhanhieu(@RequestParam(required = false) Map<String, String> param, HttpServletRequest request,
 			Model model) {
@@ -602,6 +624,13 @@ public class AdminController {
 		TypeProductEntity lsp = BaseService.timDanhMuc(idla);
 		model.addAttribute("lsp", lsp);
 		return "danhmuc/update";
+	}
+
+	@GetMapping(value = "/detail/color/{idla}")
+	public String detail(@PathVariable(value = "idla") int idla, Model model) {
+		ColorEntity lsp = BaseService.detailColor(idla);
+		model.addAttribute("lsp", lsp);
+		return "admin/update-color";
 	}
 
 	@GetMapping(value = "/find-brand//{idla}")
@@ -642,6 +671,18 @@ public class AdminController {
 		return "danhmuc/update";
 	}
 
+	@PostMapping(value = "/sua-color-tc")
+	public String updateColor(@ModelAttribute(value = "lsp") ColorEntity loaisp, Model model) {
+		Gson gs = new Gson();
+		String data = gs.toJson(loaisp);
+		Notifies tb = BaseService.updateColor(data);
+		model.addAttribute("tb", tb);
+		if (tb.getMacode() == 1) {
+			return "redirect:/color";
+		}
+		return "admin/update-color";
+	}
+
 	@PostMapping(value = "/update-brand-success")
 	public String updateBrand(@ModelAttribute(value = "lsp") BranchEntity loaisp, Model model) {
 		Gson gs = new Gson();
@@ -659,6 +700,13 @@ public class AdminController {
 		TypeProductEntity lsp = new TypeProductEntity();
 		model.addAttribute("lsp", lsp);
 		return "danhmuc/insert";
+	}
+
+	@GetMapping(value = "/insert-color")
+	public String insertColor(Model model) {
+		ColorEntity lsp = new ColorEntity();
+		model.addAttribute("lsp", lsp);
+		return "admin/insert-color";
 	}
 
 	@GetMapping(value = "/insert-brand")
@@ -694,6 +742,19 @@ public class AdminController {
 		return "danhmuc/insert";
 	}
 
+	// Thêm danh mục
+	@PostMapping(value = "/insert-color-tc")
+	public String insertColor(@ModelAttribute(value = "lsp") ColorEntity loaisp, Model model) {
+		Gson gs = new Gson();
+		String data = gs.toJson(loaisp);
+		Notifies tb = BaseService.themColor(data);
+		model.addAttribute("tb", tb);
+		if (tb.getMacode() == 1) {
+			return "redirect:/color";
+		}
+		return "admin/insert-color";
+	}
+
 	// Xóa danh mục
 	@GetMapping(value = "/delete-danh-muc/{idxoa}")
 	public String xoaDanhMuc(@RequestParam(required = false) Map<String, String> param,
@@ -710,6 +771,23 @@ public class AdminController {
 		model.addAttribute("danhsach", "Danh sách danh mục");
 		model.addAttribute("tao", "Tạo danh mục");
 		return "danhmuc/danhmuc";
+	}
+
+	@GetMapping(value = "/delete-color/{idxoa}")
+	public String deleteColor(@RequestParam(required = false) Map<String, String> param,
+			@PathVariable(value = "idxoa") int idxoa, Model model) {
+		Notifies tb = BaseService.deleteColor(idxoa);
+		if (tb.getMacode() == 0) {
+			model.addAttribute("tb", tb.getText() + " mắc khóa ngoại đến bảng sản phẩm");
+		}
+		int sotrang = Integer.parseInt(param.getOrDefault("page", "1"));
+		List<ColorEntity> list = BaseService.pageColor(sotrang);
+		model.addAttribute("list", list);
+		Long soluong = BaseService.countColor();
+		model.addAttribute("sl", soluong);
+		model.addAttribute("danhsach", "Danh sách màu sắc");
+		model.addAttribute("tao", "Tạo màu sắc");
+		return "admin/color";
 	}
 
 	// Test

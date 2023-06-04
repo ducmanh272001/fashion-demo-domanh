@@ -27,33 +27,36 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type="text/css">
-.error{
-    color: red;
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 15px;
+.error {
+	color: red;
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 15px;
 }
+
 .menusanpham li i {
 	padding-right: 15px;
 }
-.chinhinput{
+
+.chinhinput {
 	width: 100%;
-    padding: 9px 20px;
-    text-align: left;
-    border: 0;
-    outline: 0;
-    border-radius: 6px;
-    background-color: #fff;
-    font-size: 15px;
-    font-weight: 300;
-    color: #8D8D8D;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    margin-top: 16px;
+	padding: 9px 20px;
+	text-align: left;
+	border: 0;
+	outline: 0;
+	border-radius: 6px;
+	background-color: #fff;
+	font-size: 15px;
+	font-weight: 300;
+	color: #8D8D8D;
+	-webkit-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	margin-top: 16px;
 }
-.selectcss{
-   margin-top: 0px!important;
+
+.selectcss {
+	margin-top: 0px !important;
 }
 </style>
 </head>
@@ -97,14 +100,12 @@
 						class="fa-regular fa-newspaper"></i> Tin tức</a></li>
 				<li><a class="a7" href="${rootpath}danh-muc"><i
 						class="fa-solid fa-boxes-stacked"></i>Danh mục</a></li>
-				<li><a class="a8" href=""><i
-						class="fa-brands fa-salesforce"></i> Doanh số</a></li>
-				<li><a class="a9" href=""><i class="fa-solid fa-file-lines"></i>
-						Thu chi</a></li>
-				<li><a class="a10" href="loinhuan.html"><i
-						class="fa-solid fa-dollar-sign"></i> Lợi nhuận</a></li>
-				<li><a class="a11" href="thietlap.html"><i
-						class="fa-solid fa-list-check"></i> Thiết lập</a></li>
+				<li><a class="a8" href="${rootpath}nhan-hieu"><i
+						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
+				<li><a class="a10" href="${rootpath}payment/list"><i
+						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
@@ -112,42 +113,52 @@
 				<div class="row">
 					<div class="form-holder">
 						<div class="form-content">
-							<div class="form-items" style="padding: 20px 250px;border: none;">
-							<div class="suafog">
-								<h3>Thêm tin tức</h3>
-								<p style="text-decoration: underline; color: red;">${tb.text}</p>
-								<p style="text-decoration: underline; color: red;">${tbl}</p>
-								<sform:form modelAttribute="tintuc"
-									action="${rootpath}insert-tintuc-thanhcong" method="post" enctype="multipart/form-data">
-									<div class="col-md-12">
-										 <sform:input cssClass="col-s-12" type="text" path="title" placeholder="Nhập tiêu đề..." maxlength="100"/>
-										 <sform:errors path="title" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<sform:input cssStyle="margin-bottom: 16px;" cssClass="col-s-12" type="text" placeholder="Nhập mô tả..." path="descripe"/>
-										<sform:errors path="descripe" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<textarea style="margin-top: 16px;" name="information" rows="3" id="information">${information}</textarea>
-										<sform:errors path="content" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12" style="margin-bottom: 16px;">
-									   	<sform:input cssClass="col-s-12" type="text" placeholder="Nhập thuộc tính tin..."  path="type_tin"/>
-									   	<sform:errors path="type_tin" cssClass="error"></sform:errors>
-									</div>
-									<div class="col-md-12">
-										<input type="file" name="uploadfile">
-									</div>		
-									<div class="col-md-12" style="margin-top: 16px;">
-										<sform:radiobutton path="status" value="1" /><span style="padding: 0px 8px;">Đang hiển thị</span>
-					                 	<sform:radiobutton path="status" value="0" /><span style="padding: 0px 8px;">Đang ẩn</span>
-					                 	<sform:errors path="status" cssClass="error"></sform:errors>
-									</div>	
-									<div class="form-button mt-3">
-										<button id="submit" type="submit" class="btn btn-primary"
-											style="width: 96%;margin-left: 15px;margin-top: 30px;padding: 10px 0px;">Thêm tin tức</button>
-									</div>
-								</sform:form>
+							<div class="form-items"
+								style="padding: 20px 250px; border: none;">
+								<div class="suafog">
+									<h3>Thêm tin tức</h3>
+									<p style="text-decoration: underline; color: red;">${tb.text}</p>
+									<p style="text-decoration: underline; color: red;">${tbl}</p>
+									<sform:form modelAttribute="tintuc"
+										action="${rootpath}insert-tintuc-thanhcong" method="post"
+										enctype="multipart/form-data">
+										<div class="col-md-12">
+											<sform:input cssClass="col-s-12" type="text" path="title"
+												placeholder="Nhập tiêu đề..." maxlength="100" />
+											<sform:errors path="title" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<sform:input cssStyle="margin-bottom: 16px;"
+												cssClass="col-s-12" type="text" placeholder="Nhập mô tả..."
+												path="descripe" />
+											<sform:errors path="descripe" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<textarea style="margin-top: 16px;" name="information"
+												rows="3" id="information">${information}</textarea>
+											<sform:errors path="content" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12" style="margin-bottom: 16px;">
+											<sform:input cssClass="col-s-12" type="text"
+												placeholder="Nhập thuộc tính tin..." path="type_tin" />
+											<sform:errors path="type_tin" cssClass="error"></sform:errors>
+										</div>
+										<div class="col-md-12">
+											<input type="file" name="uploadfile">
+										</div>
+										<div class="col-md-12" style="margin-top: 16px;">
+											<sform:radiobutton path="status" value="1" />
+											<span style="padding: 0px 8px;">Đang hiển thị</span>
+											<sform:radiobutton path="status" value="0" />
+											<span style="padding: 0px 8px;">Đang ẩn</span>
+											<sform:errors path="status" cssClass="error"></sform:errors>
+										</div>
+										<div class="form-button mt-3">
+											<button id="submit" type="submit" class="btn btn-primary"
+												style="width: 96%; margin-left: 15px; margin-top: 30px; padding: 10px 0px;">Thêm
+												tin tức</button>
+										</div>
+									</sform:form>
 								</div>
 							</div>
 						</div>
@@ -157,14 +168,19 @@
 		</div>
 	</header>
 	<script src="https://code.jquery.com/jquery.min.js"></script>
-	<script type="text/javascript" src="${rootpath}public/library/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript" src="${rootpath}public/library/ckfinder/ckfinder.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript"
+		src="${rootpath}public/library/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript"
+		src="${rootpath}public/library/ckfinder/ckfinder.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
-	   var ckeditor = CKEDITOR.replace('information');
-	   CKFinder.setupCKEditor(ckeditor, '${rootpath}public/library/ckfinder/')
+		var ckeditor = CKEDITOR.replace('information');
+		CKFinder.setupCKEditor(ckeditor, '${rootpath}public/library/ckfinder/')
 	</script>
 </body>
 </html>

@@ -62,8 +62,8 @@
 				<a href="${rootpath}log-out">Đăng xuất</a>
 			</div>
 		</div>
-		
-		
+
+
 		<div class="thanhtrai dieuhuongan">
 			<span><a href=""><i class="fa-solid fa-xmark dongclose"></i></a></span>
 			<ul class="leftstyle">
@@ -85,7 +85,7 @@
 						class="fa-solid fa-right-from-bracket leftmenu"></i>Đăng xuất</a></li>
 			</ul>
 		</div>
-		
+
 		<div class="left-header w20 float">
 			<ul class="menusanpham">
 				<li><a class="a1" href=""><i class="fa-brands fa-sellcast"></i>
@@ -106,6 +106,8 @@
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a10" href="${rootpath}payment/list"><i
 						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
+				<li><a class="a7" href="${rootpath}color"><i
+						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
@@ -117,22 +119,22 @@
 						</h3>
 					</div>
 					<div>
-					 <a class="taosp" href="${rootpath}trang-them-san-pham"><i
-									class="fa-solid fa-plus"></i> Tạo SP</a>
+						<a class="taosp" href="${rootpath}trang-them-san-pham"><i
+							class="fa-solid fa-plus"></i> Tạo SP</a>
 					</div>
 				</div>
 			</div>
-			<form action="${rootpath}tim-kiem-sp"
-				class="nhapmasanpham cols" method="get">
+			<form action="${rootpath}tim-kiem-sp" class="nhapmasanpham cols"
+				method="get">
 				<input type="text" name="tentim" value="${ltim.name}"
-					placeholder="Nhập tên sản phẩm cần tìm...">
-				<select name="nhanhieu">
-				<option value="">Nhãn hiệu</option>
+					placeholder="Nhập tên sản phẩm cần tìm..."> <select
+					name="nhanhieu">
+					<option value="">Nhãn hiệu</option>
 					<c:forEach items="${lnh}" var="ln">
 						<option value="${ln.id}">${ln.name_brand}</option>
 					</c:forEach>
 				</select> <select name="loaisanpham">
-				   <option value="">Loại sản phẩm</option>
+					<option value="">Loại sản phẩm</option>
 					<c:forEach items="${lsp}" var="ls">
 						<option value="${ls.id}">${ls.loai_sp}</option>
 					</c:forEach>
@@ -199,7 +201,7 @@
 								<td><fmt:formatNumber value="${l.price_import}"
 										type="currency" /></td>
 								<td><fmt:formatNumber value="${l.price_new}"
-										type="currency" /></td>	
+										type="currency" /></td>
 								<td>${l.sp_view}</td>
 								<td><fmt:formatDate value="${l.day_update}"
 										dateStyle="short" /></td>

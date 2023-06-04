@@ -14,51 +14,27 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="${rootpath}public/css/admins.css">
 <link rel="stylesheet"
-	href="${rootpath}public/plugin/dist/assets/owl.theme.default.min.css">
+	href="plugin/dist/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="plugin/dist/assets/owl.carousel.min.css">
 <link rel="stylesheet"
-	href="${rootpath}public/plugin/dist/assets/owl.carousel.min.css">
-<link rel="stylesheet"
-	href="${rootpath}public/css/fontawesome-free-6.1.1/css/all.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <style type="text/css">
 .menusanpham li i {
 	padding-right: 15px;
-}
-
-.chinhinput {
-	width: 100%;
-	padding: 9px 20px;
-	text-align: left;
-	border: 0;
-	outline: 0;
-	border-radius: 6px;
-	background-color: #fff;
-	font-size: 15px;
-	font-weight: 300;
-	color: #8D8D8D;
-	-webkit-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-	margin-top: 16px;
-}
-
-.selectcss {
-	margin-top: 0px !important;
 }
 </style>
 </head>
 <body>
 	<header>
-		<div class="header-admin d-flex suamai">
+		<div class="header-admin d-flex">
+			<span><a class="oknhan"><i class="fa-solid fa-bars"></i></a></span>
 			<div class="dropdown chonngonngu">
 				<button class="btn btn-secondary dropdown-toggle" type="button"
 					data-toggle="dropdown" aria-expanded="false"
-					style="text-transform: capitalize;">Lựa chọn ngôn ngữ</button>
+					style="text-transform: capitalize;">Ngôn ngữ</button>
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="${rootpath}Admin?lag=vi">Vietnamese</a>
 					<a class="dropdown-item" href="${rootpath}Admin?lag=en">English</a>
@@ -75,6 +51,31 @@
 				<a href="${rootpath}log-out">Đăng xuất</a>
 			</div>
 		</div>
+		
+		<div class="thanhtrai dieuhuongan">
+			<span><a href=""><i class="fa-solid fa-xmark dongclose"></i></a></span>
+			<ul class="leftstyle">
+				<li><a class="a1" href=""><i
+						class="fa-brands fa-sellcast leftmenu"></i> Pos Bán Hàng</a></li>
+				<li><a class="a2" href="${rootpath}Admin"><i
+						class="fa-solid fa-house-user leftmenu"></i> Trang Chủ</a></li>
+				<li><a class="a3" href="${rootpath}list-hoa-don"><i
+						class="fa-solid fa-cart-shopping leftmenu"></i> Đơn hàng</a></li>
+				<li><a class="a4" href="${rootpath}ql-san-pham"><i
+						class="fa-brands fa-product-hunt leftmenu"></i> Sản phẩm</a></li>
+				<li><a class="a5" href="${rootpath}khach-hang"><i
+						class="fa-solid fa-user-group leftmenu"></i>Khách hàng</a></li>
+				<li><a class="a6" href="${rootpath}tin-tuc"><i
+						class="fa-regular fa-newspaper leftmenu"></i> Tin tức</a></li>
+				<li><a class="a5" href="${rootpath}danh-muc"><i
+						class="fa-solid fa-user-group leftmenu"></i>Danh mục</a></li>
+				<li><a href="${rootpath}log-out"><i
+						class="fa-solid fa-right-from-bracket leftmenu"></i>Đăng xuất</a></li>
+			</ul>
+		</div>
+		
+		
+		
 		<div class="left-header w20 float">
 			<ul class="menusanpham">
 				<li><a class="a1" href=""><i class="fa-brands fa-sellcast"></i>
@@ -95,50 +96,57 @@
 						class="fa-brands fa-salesforce"></i>Nhãn hiệu</a></li>
 				<li><a class="a10" href="${rootpath}payment/list"><i
 						class="fa-solid fa-dollar-sign"></i> Thanh toán vnpay</a></li>
-				<li><a class="a7" href="${rootpath}color"><i
+			  <li><a class="a7" href="${rootpath}color"><i
 						class="fa-solid fa-boxes-stacked"></i>Màu sắc</a></li>
 			</ul>
 		</div>
 		<div class="right-header w80 float">
-			<div class="form-body">
-				<div class="row">
-					<div class="form-holder">
-						<div class="form-content">
-							<div class="form-items"
-								style="padding: 20px 290px; border: none;">
-								<div class="suafog">
-									<h3>Sửa danh mục</h3>
-									<p style="text-decoration: underline; color: red;">${tb.text}</p>
-									<p style="text-decoration: underline; color: red;">${loinl}</p>
-									<sform:form style="padding: 0px 133px;  padding-bottom: 46px;"
-										modelAttribute="lsp" action="${rootpath}sua-danhmuc-tc"
-										method="post">
-										<div class="col-md-12">
-											<sform:input cssClass="col-s-12" path="id" type="number"
-												cssStyle="width:150%; border: none; padding: 9px 20px; border-radius: 8px; color: gray;"
-												readonly="true" />
-										</div>
-										<div class="col-md-12">
-											<sform:input cssClass="col-s-12" type="text" path="loai_sp"
-												cssStyle="width:150%;" placeholder="Nhập tên danh mục..." />
-										</div>
-										<div class="col-md-12 mt-3">
-											<sform:radiobutton path="status" value="1" />
-											Đang hiển thị
-											<sform:radiobutton path="status" value="0" />
-											Đang ẩn
-										</div>
-										<div class="form-button mt-3">
-											<button type="submit" class="btn btn-primary suadanhmuc"
-												style="width: 133%; margin-left: 15px;">Sửa danh
-												mục</button>
-										</div>
-									</sform:form>
-								</div>
-							</div>
-						</div>
+			<div class="right-headermanh">
+				<div class="logo-ok">
+					<div class="right-header-danhsachsanpham ">
+						<h3>${danhsach}</h3>
+					</div>
+					<div class="right-header-taosanpham">
+						<ul>
+							<li><a href="${rootpath}insert-color"><i
+									class="fa-solid fa-plus"></i> ${tao}</a></li>
+						</ul>
 					</div>
 				</div>
+			</div>
+			<div class="d-flex tbhoadon">
+				<span class="">${tb}</span>
+			</div>
+			<div class="bangsanpham cols">
+				<table style="margin: 1em; text-align: center; width: 97%;">
+					<tr>
+						<th>Id</th>
+						<th>Tên</th>
+						<th>Trạng thái</th>
+						<th>Sửa</th>
+						<th>Xóa</th>
+					</tr>
+					<c:forEach items="${list}" var="l">
+						<tr>
+							<td>${l.id}</td>
+							<td>${l.name}</td>
+							<td>${l.status?'Đang hiển thị' : 'Không hiển thị'}</td>
+							<td><a href="${rootpath}detail/color/${l.id}"> <img
+									src="${rootpath}public/img/Pencil-icon (1).png">
+							</a></td>
+							<td><a href="${rootpath}delete-color/${l.id}"> <img
+									src="${rootpath}public/img/close-icon.png">
+							</a></td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+			<div>
+				<ul class="sotrangadmin">
+					<c:forEach begin="1" end="${Math.ceil(sl / 8)}" var="i">
+						<li><a href="${rootpath}list-hoa-don?page=${i}">${i}</a></li>
+					</c:forEach>
+				</ul>
 			</div>
 		</div>
 	</header>
@@ -148,5 +156,6 @@
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="${rootpath}public/js/admin.js"></script>
 </body>
 </html>
