@@ -1491,7 +1491,7 @@ public class BaseService {
 	// Tìm UserRole
 	public static UserRoleEntity timUserRole(int idla) {
 		Gson gs = new Gson();
-		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user-role/search/" + idla;
+		String URL = "https://fashion-shop-api.herokuapp.com/rest/api/v1/user-role/search-user/" + idla;
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(URL);
 		String data = target.request(MediaType.APPLICATION_JSON).get(String.class);
