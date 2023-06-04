@@ -90,7 +90,7 @@
 						<li><a href=""><i class="fa-brands fa-facebook-f"></i></a></li>
 						<li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
 						<li><a href=""><i class="fa-brands fa-twitter"></i></a></li>
-						<li><a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/Fashion-Shop/login-google&response_type=code&client_id=659664644286-qqv1oggjqtp4s5bvslm2rvqoofejb2rs.apps.googleusercontent.com&approval_prompt=force"><i class="fa-brands fa-google-plus-g"></i></a></li>
+						<li><a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=https://fashion-shop-service.herokuapp.com/login-google&response_type=code&client_id=659664644286-s8n5628vv9lqkf89am8p95eq23a4hcej.apps.googleusercontent.com&approval_prompt=force"><i class="fa-brands fa-google-plus-g"></i></a></li>
 					</ul>
 				</div>
 			</div>
