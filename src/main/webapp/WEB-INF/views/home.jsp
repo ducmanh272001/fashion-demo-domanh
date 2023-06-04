@@ -791,36 +791,34 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="owl-carousel owl-theme" id="manhcatintuc">
-					<c:forEach items="${ltintuc}" var="o">
-						<div class="col-lg-4 col-md-4 col-sm-6 col-12">
-							<div class="khoi">
-								<div class="blog-one-zoom wow bounceInUp" data-wow-delay="0.2s">
-									<div class="blog-one-img">
-										<!-- dẫn đến link -->
-										<a href="${rootpath}xem-tin-tuc/${o.id}"> <img
-											src="${rootpath}public/img/${o.img}" alt="">
+				<c:forEach items="${ltintuc}" var="o">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+						<div class="khoi">
+							<div class="blog-one-zoom wow bounceInUp" data-wow-delay="0.2s">
+								<div class="blog-one-img">
+									<!-- dẫn đến link -->
+									<a href="${rootpath}xem-tin-tuc/${o.id}"> <img
+										src="${rootpath}public/img/${o.img}" alt="">
+									</a>
+								</div>
+								<div class="blog-one-text">
+									<!-- dẫn đến link -->
+									<h5>
+										<a href=""> <fmt:formatDate value="${o.day_tin}"
+												dateStyle="short" />
 										</a>
-									</div>
-									<div class="blog-one-text">
-										<!-- dẫn đến link -->
-										<h5>
-											<a href=""> <fmt:formatDate value="${o.day_tin}"
-													dateStyle="short" />
-											</a>
-										</h5>
-										<h4>
-											<a href="${rootpath}xem-tin-tuc/${o.id}"> ${o.descripe} </a>
-										</h4>
-										<a href="${rootpath}xem-tin-tuc/${o.id}" class="button"> <fmt:message
-												key="doc" /> <i class="fa-solid fa-arrow-right"></i>
-										</a>
-									</div>
+									</h5>
+									<h4>
+										<a href="${rootpath}xem-tin-tuc/${o.id}"> ${o.descripe} </a>
+									</h4>
+									<a href="${rootpath}xem-tin-tuc/${o.id}" class="button"> <fmt:message
+											key="doc" /> <i class="fa-solid fa-arrow-right"></i>
+									</a>
 								</div>
 							</div>
 						</div>
-					</c:forEach>
-				</div>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

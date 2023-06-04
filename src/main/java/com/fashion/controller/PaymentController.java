@@ -32,7 +32,6 @@ public class PaymentController {
 		return "payment/list";
 	}
 
-	public static String vnp_Returnurl = "https://fashion-shop-service.herokuapp.com/payment/successfully";
 
 	@GetMapping(value = "/successfully")
 	public String successfully(HttpServletRequest request, Model model) throws ParseException {
